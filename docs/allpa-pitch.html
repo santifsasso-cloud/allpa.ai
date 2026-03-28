@@ -2,1329 +2,1424 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Allpa.ai</title>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Allpa.ai — Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 :root {
-  --bg: #080B05;
+  --bg: #07090505;
+  --ink: #080B05;
   --s1: #0C1008;
-  --s2: #111609;
-  --s3: #16200C;
-  --border: rgba(255,255,255,0.06);
-  --bhi: rgba(138,200,64,0.2);
+  --s2: #121808;
+  --s3: #18200C;
   --green: #8AC840;
-  --green-d: #5A8A28;
+  --green-d: #4A8020;
+  --green-hi: rgba(138,200,64,0.12);
   --gold: #C8A030;
-  --amber: #E07830;
-  --red: #D04030;
-  --blue: #50AACC;
-  --cream: #E8E0C8;
-  --text: #C0CCA8;
-  --muted: #687858;
-  --fog: #8A9878;
+  --amber: #D07828;
+  --red: #C84030;
+  --blue: #4AAAC8;
+  --cream: #EAE0C8;
+  --fog: #8A9870;
+  --muted: #526040;
+  --text: #C0CCA0;
+  --border: rgba(255,255,255,0.07);
+  --bhi: rgba(138,200,64,0.22);
 }
-
-* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html, body { height:100%; overflow:hidden; }
+html { scroll-behavior: smooth; }
 body {
-  background: var(--bg);
+  background: var(--ink);
   color: var(--text);
   font-family: 'Geist', sans-serif;
   font-weight: 300;
-  line-height: 1.5;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ─── GRAIN ─── */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:1000;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ─── SECTIONS ─── */
+section { position: relative; }
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 0 80px 80px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-glow {
+  position: absolute;
+  width: 900px; height: 900px;
+  background: radial-gradient(circle, rgba(138,200,64,0.07) 0%, transparent 65%);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-top: 52px;
+}
+.hero-logo {
+  font-family: 'Fraunces', serif;
+  font-size: 18px; font-weight: 700;
+  color: var(--green); letter-spacing: -0.3px;
+}
+.hero-logo span { color: var(--cream); }
+.hero-badge {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); border: 1px solid var(--border);
+  padding: 6px 14px;
+}
+
+.hero-main {
   display: flex;
   flex-direction: column;
-  max-width: 420px;
-  margin: 0 auto;
-  position: relative;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  max-width: 900px;
 }
 
-/* ── NOISE TEXTURE ── */
-body::after {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:999;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+.hero-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-eyebrow::before {
+  content: ''; width: 32px; height: 1px; background: var(--green);
 }
 
-/* ── STATUS BAR ── */
-.status {
-  height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  background: var(--bg);
-  flex-shrink: 0;
-}
-.s-time { font-family:'Geist Mono',monospace; font-size:13px; font-weight:500; color:var(--cream); }
-.s-icons { display:flex; align-items:center; gap:6px; }
-.s-icon { width:16px; height:10px; background:var(--cream); border-radius:2px; opacity:.8; }
-
-/* ── TOP NAV ── */
-.topnav {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
-  background: var(--bg);
-}
-.logo {
+.hero-h1 {
   font-family: 'Fraunces', serif;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: clamp(64px, 8vw, 120px);
+  font-weight: 900; line-height: 0.88;
+  letter-spacing: -4px; color: var(--cream);
+  margin-bottom: 32px;
+}
+.hero-h1 em {
+  font-style: italic; font-weight: 300;
   color: var(--green);
-  letter-spacing: -0.5px;
-}
-.logo span { color: var(--cream); }
-.nav-right { display:flex; align-items:center; gap:12px; }
-.avatar {
-  width: 32px; height: 32px;
-  background: linear-gradient(135deg, var(--green-d), var(--green));
-  border-radius: 50%;
-  display: flex; align-items:center; justify-content:center;
-  font-family: 'Fraunces', serif;
-  font-size: 13px; font-weight:700; color: var(--bg);
-}
-.notif-dot {
-  width: 8px; height: 8px;
-  background: var(--amber);
-  border-radius: 50%;
-  border: 2px solid var(--bg);
-  margin-top: -20px; margin-left: -10px;
-  position: relative;
 }
 
-/* ── SCROLL CONTENT ── */
-.content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
+.hero-desc {
+  font-size: 20px; color: var(--fog);
+  max-width: 640px; line-height: 1.75;
+  margin-bottom: 52px;
 }
-.content::-webkit-scrollbar { display:none; }
+.hero-desc strong { color: var(--cream); font-weight: 500; }
 
-/* ── SCREEN (each tab) ── */
-.screen { display:none; }
-.screen.active { display:block; }
-
-/* ── HOME SCREEN ── */
-.home-greeting {
-  padding: 24px 20px 0;
-}
-.greeting-sub {
-  font-family:'Geist Mono',monospace;
-  font-size: 10px; letter-spacing: 2px;
-  color: var(--muted); text-transform:uppercase;
-  margin-bottom: 4px;
-}
-.greeting-main {
-  font-family: 'Fraunces', serif;
-  font-size: 26px; font-weight:700;
-  color: var(--cream); line-height: 1.1;
-  letter-spacing: -0.5px;
-}
-.greeting-main em { font-style:italic; font-weight:300; color:var(--green); }
-
-/* PULSO CARD */
-.pulso-card {
-  margin: 20px 20px 0;
-  background: var(--s2);
+.hero-stats {
+  display: flex; gap: 0;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  overflow: hidden;
+  max-width: 700px;
+}
+.hstat {
+  flex: 1; padding: 24px 28px;
+  border-right: 1px solid var(--border);
+}
+.hstat:last-child { border-right: none; }
+.hs-n {
+  font-family: 'Fraunces', serif;
+  font-size: 44px; font-weight: 900;
+  color: var(--green); letter-spacing: -2px;
+  line-height: 1;
+}
+.hs-l {
+  font-size: 12px; color: var(--muted);
+  margin-top: 6px; line-height: 1.4;
+}
+
+.hero-tagline {
+  font-family: 'Fraunces', serif;
+  font-style: italic; font-size: 16px;
+  color: var(--muted); margin-top: 48px;
+  padding-top: 48px; border-top: 1px solid var(--border);
+}
+
+/* ═══════════════════════════════════════
+   SHARED
+═══════════════════════════════════════ */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 100px 80px; }
+.wrap.narrow { max-width: 880px; }
+
+.section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-label::before { content: ''; width: 24px; height: 1px; background: var(--muted); }
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 4.5vw, 62px);
+  font-weight: 700; letter-spacing: -2px;
+  color: var(--cream); line-height: 1;
+  margin-bottom: 12px;
+}
+.section-title em { font-style: italic; font-weight: 300; color: var(--fog); }
+
+.section-sub {
+  font-size: 16px; color: var(--fog);
+  max-width: 560px; line-height: 1.8;
+  margin-bottom: 64px;
+}
+
+.div-line { height: 1px; background: var(--border); margin: 0 80px; }
+
+/* ═══════════════════════════════════════
+   MISION / VISION
+═══════════════════════════════════════ */
+.mv-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+  margin-bottom: 2px;
+}
+.mv-card {
+  padding: 56px 52px;
+  position: relative; overflow: hidden;
+}
+.mv-card.green { background: var(--green-hi); border: 1px solid var(--bhi); }
+.mv-card.dark { background: var(--s1); border: 1px solid var(--border); }
+
+.mv-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.mv-tag.g { color: var(--green); }
+.mv-tag.d { color: var(--muted); }
+
+.mv-title {
+  font-family: 'Fraunces', serif;
+  font-size: 32px; font-weight: 700;
+  letter-spacing: -1px; color: var(--cream);
+  margin-bottom: 20px; line-height: 1.05;
+}
+.mv-body { font-size: 15px; color: var(--fog); line-height: 1.8; }
+.mv-body strong { color: var(--text); font-weight: 500; }
+
+.mv-deco {
+  position: absolute; bottom: -20px; right: -20px;
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 120px; font-weight: 900;
+  color: rgba(138,200,64,0.04); line-height: 1;
+  pointer-events: none; user-select: none;
+}
+
+/* ═══════════════════════════════════════
+   QUÉ ES
+═══════════════════════════════════════ */
+.what-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px;
+}
+.what-card {
+  background: var(--s1); border: 1px solid var(--border);
+  padding: 40px 36px;
+}
+.what-card.hi {
+  background: var(--green-hi); border-color: var(--bhi);
+}
+.wc-icon { font-size: 36px; margin-bottom: 16px; line-height: 1; }
+.wc-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--cream); letter-spacing: -0.5px;
+  margin-bottom: 12px; line-height: 1.1;
+}
+.wc-body { font-size: 14px; color: var(--fog); line-height: 1.8; }
+.wc-body strong { color: var(--text); font-weight: 500; }
+
+/* ═══════════════════════════════════════
+   PARA QUIÉN
+═══════════════════════════════════════ */
+.who-list {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.who-item {
+  background: var(--s1); border: 1px solid var(--border);
+  padding: 32px 36px;
+  display: grid; grid-template-columns: 56px 1fr; gap: 20px;
+  align-items: flex-start;
+}
+.who-num {
+  font-family: 'Fraunces', serif;
+  font-size: 48px; font-weight: 900; font-style: italic;
+  color: var(--bhi); line-height: 1;
+}
+.who-title {
+  font-size: 16px; font-weight: 500; color: var(--cream);
+  margin-bottom: 6px;
+}
+.who-desc { font-size: 13px; color: var(--fog); line-height: 1.7; }
+.who-desc strong { color: var(--text); font-weight: 500; }
+
+/* ═══════════════════════════════════════
+   LA OFERTA
+═══════════════════════════════════════ */
+.offer-hero {
+  background: var(--s1); border: 1px solid var(--bhi);
+  padding: 64px 72px; margin-bottom: 2px;
+  position: relative; overflow: hidden;
+}
+.offer-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(138,200,64,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.offer-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 20px;
+}
+.offer-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(40px, 5vw, 72px);
+  font-weight: 900; letter-spacing: -3px;
+  color: var(--cream); line-height: 0.92;
+  margin-bottom: 28px;
+}
+.offer-title em { color: var(--green); font-style: italic; font-weight: 300; }
+.offer-body {
+  font-size: 18px; color: var(--fog);
+  max-width: 600px; line-height: 1.75;
+}
+.offer-body strong { color: var(--cream); font-weight: 500; }
+
+.offer-compare {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.oc-card {
+  padding: 36px 40px;
+}
+.oc-card.bad { background: rgba(200,64,48,0.06); border: 1px solid rgba(200,64,48,0.18); }
+.oc-card.good { background: var(--green-hi); border: 1px solid var(--bhi); }
+.oc-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.oc-tag.red { color: var(--red); }
+.oc-tag.green { color: var(--green); }
+.oc-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--cream); margin-bottom: 16px;
+}
+.oc-items { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.oc-items li { font-size: 14px; color: var(--fog); padding-left: 20px; position: relative; line-height: 1.6; }
+.oc-items li::before { position: absolute; left: 0; font-size: 12px; }
+.oc-card.bad li::before { content: '✗'; color: var(--red); }
+.oc-card.good li::before { content: '✓'; color: var(--green); }
+.oc-items li strong { color: var(--text); font-weight: 500; }
+
+.price-strip {
+  background: var(--green); padding: 28px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ps-left {}
+.ps-price {
+  font-family: 'Fraunces', serif;
+  font-size: 52px; font-weight: 900;
+  color: var(--ink); letter-spacing: -2px; line-height: 1;
+}
+.ps-label { font-size: 13px; color: rgba(8,11,5,0.6); margin-top: 4px; }
+.ps-right { text-align: right; }
+.ps-roi {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 700;
+  color: var(--ink); letter-spacing: -1px;
+}
+.ps-roi-label { font-size: 12px; color: rgba(8,11,5,0.55); margin-top: 4px; }
+
+/* ═══════════════════════════════════════
+   APP SCREENS
+═══════════════════════════════════════ */
+.screens-intro {
+  max-width: 600px; margin-bottom: 64px;
+}
+
+.screens-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.phone-wrap {
+  display: flex; flex-direction: column; gap: 16px;
+}
+
+.phone-label {
+  text-align: center;
+}
+.pl-icon { font-size: 18px; margin-bottom: 6px; }
+.pl-name {
+  font-family: 'Fraunces', serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--cream); letter-spacing: -0.3px;
+}
+.pl-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+.phone {
+  background: var(--s1);
+  border: 1.5px solid var(--border);
+  border-radius: 28px;
+  overflow: hidden;
+  aspect-ratio: 9/19;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.phone::before {
+  content: '';
+  position: absolute; top: 10px; left: 50%;
+  transform: translateX(-50%);
+  width: 60px; height: 4px;
+  background: rgba(255,255,255,0.12);
+  border-radius: 2px; z-index: 10;
+}
+.phone-inner {
+  height: 100%;
+  display: flex; flex-direction: column;
+  font-size: 7px;
   overflow: hidden;
 }
-.pulso-header {
-  padding: 14px 18px;
-  display: flex; justify-content:space-between; align-items:center;
-  border-bottom: 1px solid var(--border);
-}
-.pulso-title {
-  font-family:'Geist Mono',monospace;
-  font-size: 9px; letter-spacing:3px;
-  color: var(--muted); text-transform:uppercase;
-}
-.pulso-date { font-size:11px; color:var(--muted); }
 
-.weather-row {
-  padding: 16px 18px;
-  display:grid; grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 8px; border-bottom: 1px solid var(--border);
-}
-.weather-item { text-align:center; }
-.w-icon { font-size: 20px; line-height:1; margin-bottom:4px; }
-.w-val { font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--cream); }
-.w-label { font-size:9px; color:var(--muted); margin-top:1px; }
+/* SCREEN COMPONENTS */
+.p-status { padding: 14px 10px 4px; display: flex; justify-content: space-between; }
+.p-time { font-family: 'Geist Mono', monospace; font-size: 6.5px; color: var(--cream); font-weight: 500; }
+.p-icons { display: flex; gap: 3px; align-items: center; }
+.p-icon-bar { width: 12px; height: 5px; background: var(--cream); border-radius: 1px; opacity: .7; }
 
-.price-row {
-  padding: 12px 18px;
-  display:grid; grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
+.p-topbar {
+  padding: 4px 10px 8px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 0.5px solid var(--border);
 }
-.price-item { }
-.p-crop { font-size:10px; color:var(--muted); margin-bottom:2px; }
-.p-val { font-family:'Fraunces',serif; font-size:17px; font-weight:700; color:var(--cream); }
-.p-change { font-size:10px; margin-top:1px; }
+.p-logo { font-family: 'Fraunces', serif; font-size: 10px; font-weight: 700; color: var(--green); }
+.p-logo span { color: var(--cream); }
+.p-avatar { width: 14px; height: 14px; background: var(--green-d); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 6px; color: var(--ink); font-weight: 700; }
+
+.p-scroll { flex: 1; overflow: hidden; padding: 8px 8px 0; display: flex; flex-direction: column; gap: 5px; }
+
+.p-greeting-sm { font-family: 'Geist Mono', monospace; font-size: 5.5px; letter-spacing: 1.5px; color: var(--muted); text-transform: uppercase; }
+.p-greeting-main { font-family: 'Fraunces', serif; font-size: 12px; font-weight: 700; color: var(--cream); letter-spacing: -0.3px; line-height: 1.1; }
+.p-greeting-main em { font-style: italic; color: var(--green); }
+
+.p-card { background: var(--s2); border: 0.5px solid var(--border); border-radius: 8px; padding: 6px 8px; }
+.p-card-tag { font-family: 'Geist Mono', monospace; font-size: 5px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+.p-card-title { font-size: 7px; color: var(--cream); font-weight: 500; line-height: 1.3; }
+.p-card-sub { font-size: 6px; color: var(--muted); margin-top: 2px; line-height: 1.3; }
+
+.p-weather-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3px; }
+.p-w { text-align: center; }
+.p-w-val { font-family: 'Fraunces', serif; font-size: 9px; font-weight: 700; color: var(--cream); }
+.p-w-label { font-size: 5px; color: var(--muted); }
+
+.p-prices { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3px; }
+.p-price { text-align: center; }
+.p-price-crop { font-size: 5.5px; color: var(--muted); }
+.p-price-val { font-family: 'Fraunces', serif; font-size: 9px; font-weight: 700; color: var(--cream); }
+.p-price-ch { font-size: 5px; }
 .up { color: var(--green); }
 .dn { color: var(--red); }
 
-/* ALERTAS */
-.section-label {
-  padding: 20px 20px 10px;
-  font-family:'Geist Mono',monospace;
-  font-size: 9px; letter-spacing:3px;
-  color: var(--muted); text-transform:uppercase;
-  display: flex; justify-content:space-between; align-items:center;
-}
-.see-all { font-size:10px; color:var(--green); letter-spacing:0; font-family:'Geist',sans-serif; }
+.p-alert { display: flex; gap: 5px; align-items: flex-start; background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; padding: 5px 7px; }
+.p-alert-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 2px; }
+.p-ad-red { background: var(--red); box-shadow: 0 0 4px rgba(200,64,48,.6); }
+.p-ad-amber { background: var(--gold); }
+.p-ad-green { background: var(--green); }
+.p-alert-body { flex: 1; }
+.p-alert-tag { font-size: 5px; color: var(--muted); }
+.p-alert-title { font-size: 6.5px; color: var(--cream); font-weight: 500; line-height: 1.3; }
 
-.alert-card {
-  margin: 0 20px 8px;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex; gap:12px; align-items:flex-start;
-  cursor: pointer; transition: background .15s;
-}
-.alert-card:active { background: var(--s3); }
-.alert-dot {
-  width: 8px; height:8px; border-radius:50%;
-  flex-shrink:0; margin-top:5px;
-}
-.ad-red { background:var(--red); box-shadow:0 0 8px rgba(208,64,48,.5); }
-.ad-amber { background:var(--amber); box-shadow:0 0 8px rgba(224,120,48,.4); }
-.ad-green { background:var(--green); }
-.alert-body { flex:1; }
-.alert-tag {
-  font-family:'Geist Mono',monospace;
-  font-size:8px; letter-spacing:2px;
-  color: var(--muted); text-transform:uppercase;
-  margin-bottom:3px;
-}
-.alert-title { font-size:13.5px; color:var(--cream); font-weight:500; line-height:1.3; }
-.alert-sub { font-size:11.5px; color:var(--muted); margin-top:3px; }
-.alert-time { font-size:10px; color:var(--muted); flex-shrink:0; margin-top:2px; }
+.p-lote { background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; padding: 5px 7px; }
+.p-lote-name { font-family: 'Fraunces', serif; font-size: 8px; font-weight: 700; color: var(--cream); }
+.p-lote-sub { font-size: 5.5px; color: var(--muted); }
+.p-lote-badge { display: inline-block; margin-top: 3px; padding: 1px 5px; border-radius: 10px; font-size: 5px; background: var(--green-hi); border: 0.5px solid var(--bhi); color: var(--green); }
+.p-lote-badge.amber { background: rgba(200,160,48,.1); border-color: rgba(200,160,48,.2); color: var(--gold); }
 
-/* LOTES RÁPIDOS */
-.lote-scroll {
-  padding: 0 20px;
-  display: flex; gap:10px;
-  overflow-x: auto; scrollbar-width:none;
-  padding-bottom: 4px;
-}
-.lote-scroll::-webkit-scrollbar { display:none; }
-.lote-mini {
-  flex-shrink:0;
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius:12px;
-  padding: 12px 16px;
-  width: 140px;
-  cursor:pointer; transition: border-color .15s;
-}
-.lote-mini:active { border-color: var(--bhi); }
-.lm-name { font-family:'Fraunces',serif; font-size:14px; font-weight:700; color:var(--cream); margin-bottom:2px; }
-.lm-crop { font-size:11px; color:var(--muted); }
-.lm-stage {
-  margin-top:8px; padding:3px 8px;
-  background:rgba(138,200,64,.1);
-  border:1px solid rgba(138,200,64,.2);
-  border-radius:20px;
-  font-size:9px; color:var(--green);
-  font-family:'Geist Mono',monospace; letter-spacing:1px;
-  display:inline-block;
-}
-.lm-stage.amber { background:rgba(200,160,48,.1); border-color:rgba(200,160,48,.2); color:var(--gold); }
+.p-prog-bar { height: 2px; background: rgba(255,255,255,.05); border-radius: 1px; margin: 3px 0; }
+.p-prog-fill { height: 100%; border-radius: 1px; background: var(--green); }
 
-/* ACCESOS RÁPIDOS */
-.quick-grid {
-  margin: 0 20px;
-  display: grid; grid-template-columns:1fr 1fr;
-  gap: 8px;
-}
-.quick-btn {
-  background: var(--s2);
-  border: 1px solid var(--border);
-  border-radius:12px;
-  padding: 16px;
-  cursor:pointer; transition:background .15s;
-  display:flex; flex-direction:column; gap:8px;
-}
-.quick-btn:active { background:var(--s3); }
-.qb-icon { font-size:22px; }
-.qb-label { font-size:12px; color:var(--cream); font-weight:500; }
-.qb-sub { font-size:10px; color:var(--muted); }
+.p-campo-hero { padding: 8px 8px 6px; background: linear-gradient(180deg, rgba(138,200,64,.07) 0%, transparent 100%); border-bottom: 0.5px solid var(--border); }
+.p-campo-name { font-family: 'Fraunces', serif; font-size: 12px; font-weight: 700; color: var(--cream); letter-spacing: -0.3px; }
+.p-campo-loc { font-size: 6px; color: var(--muted); margin-top: 1px; }
+.p-campo-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; margin-top: 6px; }
+.p-cs { background: var(--s2); padding: 4px; text-align: center; border-radius: 3px; }
+.p-cs-val { font-family: 'Fraunces', serif; font-size: 10px; font-weight: 700; color: var(--cream); }
+.p-cs-label { font-size: 4.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
-/* ── CAMPO SCREEN ── */
-.campo-hero {
-  background: linear-gradient(180deg, rgba(138,200,64,0.08) 0%, transparent 100%);
-  padding: 24px 20px 20px;
-  border-bottom: 1px solid var(--border);
-}
-.campo-name {
-  font-family:'Fraunces',serif;
-  font-size:28px; font-weight:700;
-  color:var(--cream); letter-spacing:-1px;
-  margin-bottom:4px;
-}
-.campo-location {
-  font-size:12px; color:var(--muted);
-  display:flex; align-items:center; gap:6px;
-}
-.campo-location::before { content:'📍'; font-size:12px; }
+.p-rodeo { background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; overflow: hidden; }
+.p-rodeo-header { padding: 5px 7px; border-bottom: 0.5px solid var(--border); display: flex; justify-content: space-between; }
+.p-rodeo-title { font-family: 'Fraunces', serif; font-size: 8px; font-weight: 700; color: var(--cream); }
+.p-rodeo-total { font-size: 6px; color: var(--muted); }
+.p-rodeo-cats { display: grid; grid-template-columns: 1fr 1fr; }
+.p-cat { padding: 4px 7px; border-right: 0.5px solid var(--border); border-top: 0.5px solid var(--border); }
+.p-cat:nth-child(even) { border-right: none; }
+.p-cat-label { font-size: 5px; color: var(--muted); }
+.p-cat-val { font-family: 'Fraunces', serif; font-size: 10px; font-weight: 700; color: var(--cream); }
 
-.campo-stats {
-  display:grid; grid-template-columns:1fr 1fr 1fr;
-  gap:1px; margin-top:16px;
-}
-.cstat {
-  background:var(--s2);
-  padding:14px 12px;
-  text-align:center;
-}
-.cstat:first-child { border-radius:10px 0 0 10px; }
-.cstat:last-child { border-radius:0 10px 10px 0; }
-.cs-val { font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); }
-.cs-label { font-size:9px; color:var(--muted); margin-top:3px; font-family:'Geist Mono',monospace; letter-spacing:1px; text-transform:uppercase; }
+.p-san { display: flex; gap: 5px; align-items: center; background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; padding: 5px 7px; }
+.p-san-icon { font-size: 10px; }
+.p-san-info { flex: 1; }
+.p-san-title { font-size: 6.5px; color: var(--cream); font-weight: 500; }
+.p-san-sub { font-size: 5.5px; color: var(--muted); }
+.p-san-date { font-size: 5px; color: var(--gold); margin-top: 1px; }
+.p-san-dot { width: 5px; height: 5px; border-radius: 50%; }
 
-/* LOTES LIST */
-.lote-item {
-  margin: 0 20px 8px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-}
-.lote-header {
-  padding:14px 16px;
-  display:flex; justify-content:space-between; align-items:flex-start;
-}
-.lote-info {}
-.l-name { font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--cream); }
-.l-sub { font-size:11px; color:var(--muted); margin-top:2px; }
-.l-badge {
-  font-family:'Geist Mono',monospace;
-  font-size:9px; letter-spacing:1px;
-  padding:4px 10px; border-radius:20px;
-}
-.lb-ok { background:rgba(138,200,64,.1); border:1px solid rgba(138,200,64,.2); color:var(--green); }
-.lb-warn { background:rgba(224,120,48,.1); border:1px solid rgba(224,120,48,.2); color:var(--amber); }
-.lb-alert { background:rgba(208,64,48,.1); border:1px solid rgba(208,64,48,.25); color:var(--red); }
+/* CHAT */
+.p-chat-header { padding: 6px 8px; border-bottom: 0.5px solid var(--border); display: flex; gap: 6px; align-items: center; }
+.p-allpa-av { width: 16px; height: 16px; background: linear-gradient(135deg, var(--green-d), var(--green)); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 7px; font-weight: 700; color: var(--ink); }
+.p-allpa-name { font-family: 'Fraunces', serif; font-size: 8px; font-weight: 700; color: var(--cream); }
+.p-allpa-status { font-size: 5.5px; color: var(--green); }
 
-.lote-progress {
-  padding:0 16px 14px;
-}
-.prog-label { font-size:10px; color:var(--muted); margin-bottom:6px; }
-.prog-bar { height:4px; background:rgba(255,255,255,.06); border-radius:2px; }
-.prog-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green-d),var(--green)); }
+.p-msgs { flex: 1; padding: 6px 8px; display: flex; flex-direction: column; gap: 6px; overflow: hidden; }
+.p-msg-allpa { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+.p-msg-user { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.p-bubble-allpa { max-width: 85%; background: var(--s2); border: 0.5px solid var(--border); border-radius: 8px 8px 8px 2px; padding: 5px 7px; font-size: 6.5px; color: var(--cream); line-height: 1.55; }
+.p-bubble-user { max-width: 80%; background: var(--green); border-radius: 8px 8px 2px 8px; padding: 5px 7px; font-size: 6.5px; color: var(--ink); font-weight: 500; line-height: 1.5; }
+.p-bubble-allpa .cert { display: inline-block; background: rgba(138,200,64,.15); border: 0.5px solid rgba(138,200,64,.3); border-radius: 10px; padding: 1px 5px; font-size: 5px; color: var(--green); margin-bottom: 3px; }
+.p-bubble-allpa strong { color: var(--green); font-weight: 500; }
 
-.lote-data {
-  padding:10px 16px;
-  border-top:1px solid var(--border);
-  display:grid; grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-}
-.ld-item { text-align:center; }
-.ld-val { font-family:'Fraunces',serif; font-size:14px; font-weight:700; color:var(--cream); }
-.ld-key { font-size:9px; color:var(--muted); margin-top:2px; }
+.p-chips { padding: 4px 8px; display: flex; gap: 4px; overflow: hidden; }
+.p-chip { padding: 3px 7px; background: var(--s2); border: 0.5px solid var(--border); border-radius: 10px; font-size: 5.5px; color: var(--fog); white-space: nowrap; }
 
-/* RODEO */
-.rodeo-summary {
-  margin: 0 20px 16px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-}
-.rs-header {
-  padding:14px 16px;
-  border-bottom:1px solid var(--border);
-  display:flex; justify-content:space-between;
-}
-.rs-title { font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--cream); }
-.rs-total { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:4px; }
-.rs-total strong { color:var(--cream); font-size:14px; }
-.rs-cats {
-  display:grid; grid-template-columns:1fr 1fr;
-  gap:1px;
-}
-.rs-cat {
-  padding:12px 16px;
-  border-top:1px solid var(--border);
-}
-.rc-label { font-size:10px; color:var(--muted); margin-bottom:4px; }
-.rc-val { font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--cream); }
-.rc-note { font-size:9px; color:var(--green); margin-top:2px; }
+.p-input-area { padding: 5px 8px 10px; border-top: 0.5px solid var(--border); display: flex; gap: 5px; }
+.p-input { flex: 1; background: var(--s2); border: 0.5px solid var(--border); border-radius: 10px; padding: 4px 8px; font-size: 6px; color: var(--muted); display: flex; align-items: center; }
+.p-send { width: 18px; height: 18px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; flex-shrink: 0; }
 
-/* SANITARIO CARD */
-.san-item {
-  margin:0 20px 8px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px 16px;
-  display:flex; gap:12px; align-items:center;
-}
-.san-icon { font-size:24px; flex-shrink:0; }
-.san-info { flex:1; }
-.si-title { font-size:13px; color:var(--cream); font-weight:500; }
-.si-sub { font-size:11px; color:var(--muted); margin-top:2px; }
-.si-date {
-  font-family:'Geist Mono',monospace;
-  font-size:10px; color:var(--gold);
-  margin-top:4px;
-}
-.san-status {
-  width:8px; height:8px; border-radius:50%; flex-shrink:0;
-}
+/* CUADERNO */
+.p-ctabs { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); }
+.p-ctab { padding: 5px 6px; font-size: 5.5px; color: var(--muted); border-bottom: 1.5px solid transparent; }
+.p-ctab.active { color: var(--green); border-bottom-color: var(--green); }
 
-/* ── CHAT SCREEN ── */
-.chat-header {
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-  display:flex; align-items:center; gap:12px;
-}
-.allpa-avatar {
-  width:36px; height:36px;
-  background:linear-gradient(135deg,var(--green-d),var(--green));
-  border-radius:10px;
-  display:flex; align-items:center; justify-content:center;
-  font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--bg);
-}
-.allpa-info {}
-.allpa-name { font-family:'Fraunces',serif; font-size:15px; font-weight:700; color:var(--cream); }
-.allpa-status { font-size:10px; color:var(--green); display:flex; align-items:center; gap:4px; }
-.allpa-status::before { content:''; width:5px; height:5px; background:var(--green); border-radius:50%; display:inline-block; }
+.p-registro { background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; padding: 6px 7px; }
+.p-reg-top { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.p-reg-date { font-family: 'Geist Mono', monospace; font-size: 5px; color: var(--muted); }
+.p-reg-lote { font-size: 5px; color: var(--green); }
+.p-reg-title { font-size: 6.5px; color: var(--cream); font-weight: 500; margin-bottom: 2px; }
+.p-reg-detail { font-size: 5.5px; color: var(--muted); line-height: 1.4; }
+.p-reg-tags { margin-top: 3px; display: flex; gap: 3px; }
+.p-reg-tag { font-size: 4.5px; padding: 1px 5px; border: 0.5px solid var(--border); border-radius: 10px; color: var(--muted); }
+.p-reg-tag.senasa { color: var(--gold); border-color: rgba(200,160,48,.2); }
 
-.chat-messages {
-  flex:1; padding:16px 16px 0;
-  display:flex; flex-direction:column; gap:12px;
-}
+.p-fab { position: absolute; bottom: 28px; right: 8px; width: 22px; height: 22px; background: var(--green); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; box-shadow: 0 2px 8px rgba(138,200,64,.3); }
 
-.msg { display:flex; flex-direction:column; gap:4px; }
-.msg.user { align-items:flex-end; }
-.msg.allpa { align-items:flex-start; }
+/* BOTTOM NAV */
+.p-nav { height: 30px; border-top: 0.5px solid var(--border); display: flex; }
+.p-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; }
+.p-nav-icon { font-size: 10px; line-height: 1; }
+.p-nav-label { font-size: 4.5px; color: var(--muted); font-family: 'Geist Mono', monospace; letter-spacing: 0.5px; }
+.p-nav-item.active .p-nav-label { color: var(--green); }
+.p-nav-item.active .p-nav-icon { filter: none; }
 
-.bubble {
-  max-width:85%; padding:12px 14px;
-  border-radius:16px; font-size:13.5px; line-height:1.55;
-}
-.bubble.user {
-  background:var(--green);
-  color:var(--bg); border-radius:16px 16px 4px 16px;
-  font-weight:500;
-}
-.bubble.allpa {
-  background:var(--s2);
-  border:1px solid var(--border);
-  color:var(--cream);
-  border-radius:16px 16px 16px 4px;
-}
-.bubble.allpa strong { color:var(--green); font-weight:500; }
-.bubble.allpa .cert {
-  display:inline-block;
-  background:rgba(138,200,64,.15);
-  border:1px solid rgba(138,200,64,.25);
-  border-radius:20px;
-  padding:2px 8px;
-  font-family:'Geist Mono',monospace;
-  font-size:10px; color:var(--green);
-  margin-bottom:6px;
-}
+/* ALERTAS SCREEN */
+.p-alerta { background: var(--s2); border: 0.5px solid var(--border); border-radius: 6px; padding: 6px 7px; }
+.p-alerta-tag { font-family: 'Geist Mono', monospace; font-size: 5px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
+.p-alerta-title { font-size: 6.5px; color: var(--cream); font-weight: 500; margin-bottom: 2px; line-height: 1.3; }
+.p-alerta-sub { font-size: 5.5px; color: var(--muted); line-height: 1.4; }
+.p-alerta-priority { display: flex; gap: 4px; align-items: flex-start; }
+.p-alerta-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 1px; }
 
-.msg-time { font-size:10px; color:var(--muted); padding:0 4px; }
+/* ═══════════════════════════════════════
+   PANTALLA DESCRIPTIONS
+═══════════════════════════════════════ */
+.screen-desc {
+  display: flex; flex-direction: column; gap: 48px;
+}
+.sd-item {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+  align-items: center; padding: 52px; border: 1px solid var(--border);
+}
+.sd-item:nth-child(even) .sd-text { order: -1; }
+.sd-num {
+  font-family: 'Fraunces', serif; font-style: italic;
+  font-size: 80px; font-weight: 900;
+  color: var(--bhi); line-height: 1;
+  margin-bottom: -4px;
+}
+.sd-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 10px;
+}
+.sd-title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px; font-weight: 700; letter-spacing: -1px;
+  color: var(--cream); margin-bottom: 14px; line-height: 1.1;
+}
+.sd-body { font-size: 14.5px; color: var(--fog); line-height: 1.85; }
+.sd-body strong { color: var(--text); font-weight: 500; }
+.sd-features { list-style: none; display: flex; flex-direction: column; gap: 7px; margin-top: 16px; }
+.sd-features li { font-size: 13.5px; color: var(--fog); padding-left: 18px; position: relative; line-height: 1.6; }
+.sd-features li::before { content: '›'; position: absolute; left: 0; color: var(--green); font-size: 14px; line-height: 1.35; }
+.sd-features li strong { color: var(--text); font-weight: 500; }
 
-.chat-chips {
-  padding:12px 16px;
-  display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
-}
-.chat-chips::-webkit-scrollbar { display:none; }
-.chip {
-  flex-shrink:0;
-  padding:8px 14px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:20px;
-  font-size:12px; color:var(--fog);
-  cursor:pointer; transition:border-color .15s;
-  white-space:nowrap;
-}
-.chip:active { border-color:var(--bhi); color:var(--green); }
-
-.chat-input-area {
-  padding:12px 16px 20px;
-  border-top:1px solid var(--border);
-  display:flex; gap:10px; align-items:flex-end;
-}
-.input-box {
-  flex:1;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:10px 16px;
-  font-size:13px; color:var(--cream);
-  font-family:'Geist',sans-serif;
-  outline:none; resize:none;
-  min-height:42px; max-height:100px;
-  line-height:1.4;
-}
-.input-box::placeholder { color:var(--muted); }
-.input-box:focus { border-color:rgba(138,200,64,.3); }
-.send-btn {
-  width:42px; height:42px;
-  background:var(--green);
-  border-radius:50%; border:none;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; flex-shrink:0;
-  transition:transform .1s;
-}
-.send-btn:active { transform:scale(.92); }
-.voice-btn {
-  width:42px; height:42px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:50%; border:none;
-  display:flex; align-items:center; justify-content:center;
-  cursor:pointer; flex-shrink:0; color:var(--muted);
-  border:1px solid var(--border);
-}
-
-/* ── CUADERNO SCREEN ── */
-.cuaderno-tabs {
-  padding:0 20px;
-  display:flex; gap:4px; margin-bottom:16px;
-  border-bottom:1px solid var(--border);
-  padding-bottom:0;
-}
-.ctab {
-  padding:12px 16px;
-  font-size:12px; font-weight:500;
-  cursor:pointer; color:var(--muted);
-  border-bottom:2px solid transparent;
-  transition:all .15s;
-  white-space:nowrap;
-}
-.ctab.active { color:var(--green); border-bottom-color:var(--green); }
-
-.registro-item {
-  margin:0 20px 8px;
-  background:var(--s2);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:14px 16px;
-}
-.ri-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
-.ri-date { font-family:'Geist Mono',monospace; font-size:10px; color:var(--muted); }
-.ri-lote { font-size:11px; color:var(--green); }
-.ri-title { font-size:13.5px; color:var(--cream); font-weight:500; margin-bottom:4px; }
-.ri-detail { font-size:11.5px; color:var(--muted); line-height:1.5; }
-.ri-tags { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
-.ri-tag {
-  font-family:'Geist Mono',monospace;
-  font-size:8px; letter-spacing:1px;
-  padding:3px 8px; border-radius:20px;
-  color:var(--muted); border:1px solid var(--border);
-}
-.ri-tag.senasa { color:var(--gold); border-color:rgba(200,160,48,.25); }
-
-.fab-voice {
-  position:fixed;
-  bottom:90px; right:20px;
-  width:52px; height:52px;
-  background:var(--green);
-  border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:22px;
-  box-shadow:0 4px 20px rgba(138,200,64,.3);
-  cursor:pointer; z-index:10;
-  transition:transform .15s;
-}
-.fab-voice:active { transform:scale(.92); }
-
-/* ── BOTTOM NAV ── */
-.bottom-nav {
-  height: 72px;
-  display: flex;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-  flex-shrink: 0;
-  padding-bottom: 8px;
-}
-.nav-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* ═══════════════════════════════════════
+   CLOSING
+═══════════════════════════════════════ */
+.closing {
+  min-height: 80vh;
+  display: flex; flex-direction: column;
   justify-content: center;
-  gap: 4px;
-  cursor: pointer;
-  transition: color .15s;
-  color: var(--muted);
-  -webkit-tap-highlight-color: transparent;
+  padding: 100px 80px;
+  border-top: 1px solid var(--border);
+  position: relative; overflow: hidden;
 }
-.nav-item.active { color: var(--green); }
-.nav-icon { font-size: 22px; line-height:1; }
-.nav-label { font-size: 9px; font-family:'Geist Mono',monospace; letter-spacing:1px; text-transform:uppercase; }
+.closing-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(138,200,64,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.closing-title {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(52px, 7vw, 100px);
+  font-weight: 900; letter-spacing: -4px;
+  color: var(--cream); line-height: 0.88;
+  margin-bottom: 36px; max-width: 900px;
+}
+.closing-title em { font-style: italic; color: var(--green); font-weight: 300; }
+.closing-sub {
+  font-size: 18px; color: var(--fog);
+  max-width: 560px; line-height: 1.75;
+  margin-bottom: 60px;
+}
+.closing-sub strong { color: var(--cream); font-weight: 500; }
 
-/* ── MISC ── */
-.divider { height:1px; background:var(--border); margin:4px 0; }
-.tag-line {
-  padding:12px 20px 20px;
-  font-family:'Fraunces',serif;
-  font-style:italic;
-  font-size:12px;
-  color:var(--muted);
+.closing-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
 }
+.cl-card {
+  background: var(--s1); border: 1px solid var(--border);
+  padding: 28px 32px;
+}
+.cl-num { font-family: 'Fraunces', serif; font-size: 11px; color: var(--muted); letter-spacing: 1px; margin-bottom: 8px; }
+.cl-title { font-size: 15px; font-weight: 500; color: var(--cream); margin-bottom: 6px; }
+.cl-body { font-size: 13px; color: var(--fog); line-height: 1.7; }
 
-.section-pad { padding-top:20px; }
+.closing-tagline {
+  margin-top: 80px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.ct-logo { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 900; color: var(--green); }
+.ct-phrase { font-family: 'Fraunces', serif; font-style: italic; font-size: 18px; color: var(--muted); }
 
-/* BADGE */
-.badge {
-  background:var(--red);
-  color:white;
-  font-family:'Geist Mono',monospace;
-  font-size:8px;
-  padding:2px 5px;
-  border-radius:10px;
-  min-width:16px;
-  text-align:center;
-}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+.hero-main > * { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+.hero-eyebrow { animation-delay: 0.1s; }
+.hero-h1 { animation-delay: 0.2s; }
+.hero-desc { animation-delay: 0.3s; }
+.hero-stats { animation-delay: 0.4s; }
+.hero-tagline { animation-delay: 0.5s; }
 
-@keyframes fadeIn {
-  from { opacity:0; transform:translateY(6px); }
-  to { opacity:1; transform:translateY(0); }
+@media(max-width: 960px) {
+  .wrap { padding: 60px 32px; }
+  .hero { padding: 0 32px 60px; }
+  .div-line { margin: 0 32px; }
+  .hero-h1 { font-size: 52px; letter-spacing: -2px; }
+  .mv-grid, .what-grid, .offer-compare, .who-list, .screens-grid, .closing-grid { grid-template-columns: 1fr; }
+  .screens-grid { grid-template-columns: repeat(2, 1fr); }
+  .sd-item { grid-template-columns: 1fr; }
+  .sd-item:nth-child(even) .sd-text { order: 0; }
+  .closing { padding: 60px 32px; }
+  .closing-tagline { flex-direction: column; gap: 16px; align-items: flex-start; }
+  .price-strip { flex-direction: column; gap: 12px; text-align: center; }
+  .ps-right { text-align: center; }
 }
-.screen.active { animation: fadeIn .2s ease; }
-
-/* Typing indicator */
-@keyframes blink {
-  0%,80%,100% { opacity:0.2; }
-  40% { opacity:1; }
-}
-.typing-dot {
-  display:inline-block;
-  width:6px; height:6px;
-  background:var(--green);
-  border-radius:50%;
-  animation:blink 1.4s infinite;
-}
-.typing-dot:nth-child(2) { animation-delay:.2s; }
-.typing-dot:nth-child(3) { animation-delay:.4s; }
-
-/* scrollable chat area */
-.chat-scroll {
-  flex:1; overflow-y:auto; scrollbar-width:none;
-  padding:16px 16px 8px;
-  display:flex; flex-direction:column; gap:12px;
-}
-.chat-scroll::-webkit-scrollbar { display:none; }
-
-.screen.chat-screen {
-  display:none;
-  flex-direction:column;
-  height:calc(100vh - 44px - 56px - 72px);
-}
-.screen.chat-screen.active { display:flex; }
 </style>
 </head>
 <body>
 
-<!-- STATUS BAR -->
-<div class="status">
-  <div class="s-time">9:41</div>
-  <div class="s-icons">
-    <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="3" width="3" height="8" rx="1" fill="white" opacity=".4"/><rect x="4.5" y="2" width="3" height="9" rx="1" fill="white" opacity=".6"/><rect x="9" y="0" width="3" height="11" rx="1" fill="white" opacity=".8"/><rect x="13.5" y="0" width="2.5" height="11" rx="1" fill="white"/></svg>
-    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 1.5C5.1 1.5 2.5 2.7 0.8 4.7L0 3.7C2 1.4 4.8 0 8 0s6 1.4 8 3.7l-.8 1C13.5 2.7 10.9 1.5 8 1.5z" opacity=".4"/><path d="M8 4C6 4 4.2 4.8 2.9 6.1L2 5.1C3.5 3.5 5.6 2.5 8 2.5s4.5 1 6 2.6l-.9 1C11.8 4.8 10 4 8 4z" opacity=".7"/><path d="M8 6.5C7 6.5 6 6.9 5.3 7.6l-1-1C5.3 5.6 6.6 5 8 5s2.7.6 3.7 1.6l-1 1C10 6.9 9 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg>
-    <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="white" stroke-opacity=".35"/><rect x="2" y="2" width="17" height="8" rx="2" fill="white"/><path d="M23.5 4.5v3a2.5 2.5 0 000-3z" fill="white" opacity=".4"/></svg>
+<!-- ══════════════════════ HERO ══════════════════════ -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-top">
+    <div class="hero-logo">allpa<span>.ai</span></div>
+    <div class="hero-badge">Pitch Deck · 2026</div>
+  </div>
+  <div class="hero-main">
+    <div class="hero-eyebrow">El asesor que el campo siempre necesitó</div>
+    <h1 class="hero-h1">El agrónomo<br>y el veterinario<br><em>en tu bolsillo.</em></h1>
+    <p class="hero-desc">
+      <strong>Allpa.ai</strong> es la app que le da a cualquier productor agropecuario argentino el mismo nivel de asesoramiento técnico que hoy solo tienen los campos grandes. Cultivos, ganadería, veterinaria y registros SENASA — todo en una conversación.
+    </p>
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hs-n">300K</div>
+        <div class="hs-l">Productores agropecuarios en Argentina</div>
+      </div>
+      <div class="hstat">
+        <div class="hs-n">70%</div>
+        <div class="hs-l">No tiene asesor agronómico permanente</div>
+      </div>
+      <div class="hstat">
+        <div class="hs-n">$0</div>
+        <div class="hs-l">Apps de asesoría IA integral existentes hoy en LATAM</div>
+      </div>
+    </div>
+    <div class="hero-tagline">La tierra siempre supo. Ahora habla.</div>
+  </div>
+</section>
+
+<div class="div-line"></div>
+
+<!-- ══════════════════════ MISIÓN Y VISIÓN ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">Fundamentos</div>
+  <h2 class="section-title">Por qué existe<br><em>Allpa.ai</em></h2>
+  <p class="section-sub">Dos ideas simples que definen todo lo que hacemos y hacia dónde vamos.</p>
+</div>
+
+<div class="mv-grid">
+  <div class="mv-card green">
+    <div class="mv-deco">Misión</div>
+    <div class="mv-tag g">Misión · Por qué existimos</div>
+    <div class="mv-title">Que cada productor tome decisiones con el respaldo técnico que se merece.</div>
+    <p class="mv-body">
+      El productor grande tiene ingenieros agrónomos en planilla y veterinarios de guardia. El productor mediano y chico toma decisiones críticas — que pueden costar miles de dólares — solo, entre visitas esporádicas de asesores que cobran más de lo que puede pagar a diario.
+      <br><br>
+      <strong>Allpa.ai existe para cerrar esa brecha.</strong> Para que el tipo que tiene 300 hectáreas en Pergamino tenga el mismo respaldo técnico que el que tiene 3.000.
+    </p>
+  </div>
+  <div class="mv-card dark">
+    <div class="mv-deco">Visión</div>
+    <div class="mv-tag d">Visión · Hacia dónde vamos</div>
+    <div class="mv-title">Ser el sistema nervioso del campo argentino y latinoamericano.</div>
+    <p class="mv-body">
+      En cinco años, Allpa.ai no es solo una app de consultas. Es la plataforma que recuerda la historia de cada lote, anticipa problemas antes de que ocurran, automatiza los registros legales, y conecta al productor con el mercado en tiempo real.
+      <br><br>
+      <strong>Argentina primero.</strong> Luego Uruguay, Brasil, Paraguay. El campo latinoamericano produce el 10% de los alimentos del mundo — merece tecnología a la altura.
+    </p>
   </div>
 </div>
 
-<!-- TOP NAV -->
-<div class="topnav">
-  <div class="logo">allpa<span>.ai</span></div>
-  <div class="nav-right">
-    <div style="position:relative; cursor:pointer;">
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" onclick="showTab('alertas')">
-        <path d="M11 2C7.7 2 5 4.7 5 8v5l-1.5 2.5h15L17 13V8c0-3.3-2.7-6-6-6z" stroke="#687858" stroke-width="1.5" fill="none"/>
-        <path d="M9 18c0 1.1.9 2 2 2s2-.9 2-2" stroke="#687858" stroke-width="1.5" fill="none"/>
-      </svg>
-      <div class="notif-dot"></div>
+<div class="div-line" style="margin-top:2px;"></div>
+
+<!-- ══════════════════════ QUÉ ES ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">El producto</div>
+  <h2 class="section-title">Qué es<br><em>Allpa.ai</em></h2>
+  <p class="section-sub">No es una app más. Es la primera plataforma conversacional de asesoría integral para el campo argentino.</p>
+
+  <div class="what-grid">
+    <div class="what-card hi">
+      <div class="wc-icon">💬</div>
+      <div class="wc-title">Un asesor que escucha y responde</div>
+      <p class="wc-body">
+        El productor escribe o habla como si le mandara un mensaje a alguien de confianza: <em>"Tengo una vaca echada que no come, parió hace 10 días."</em>
+        <br><br>
+        Allpa responde en segundos con <strong>lo que probablemente tiene, cuánto confía en ese diagnóstico, y qué hacer exactamente</strong>. Si necesita llamar al veterinario, lo dice. Si puede resolverlo solo, también.
+      </p>
     </div>
-    <div class="avatar" onclick="showTab('perfil')">S</div>
+    <div class="what-card">
+      <div class="wc-icon">🌾</div>
+      <div class="wc-title">Tres dominios en uno</div>
+      <p class="wc-body">
+        <strong>Agricultura:</strong> soja, maíz, trigo, girasol. Diagnóstico de enfermedades, plagas, fertilización, fitosanitarios SENASA.
+        <br><br>
+        <strong>Ganadería:</strong> cría, invernada, tambo. Enfermedades bovinas, calendario sanitario, reproducción, nutrición.
+        <br><br>
+        <strong>Veterinaria de campo:</strong> diagnóstico diferencial, protocolos de tratamiento, dosis de medicamentos, cuándo escalar al profesional.
+      </p>
+    </div>
+    <div class="what-card">
+      <div class="wc-icon">📋</div>
+      <div class="wc-title">Registros legales automáticos</div>
+      <p class="wc-body">
+        Todo lo que el productor hace en el campo queda anotado sin esfuerzo. Habla por voz mientras maneja la chata: <em>"Apliqué Opera en el Lote Norte esta mañana."</em>
+        <br><br>
+        Allpa registra automáticamente en el <strong>Cuaderno de Campo SENASA</strong> y el <strong>cuaderno sanitario RENSPA</strong> — los documentos legales obligatorios para vender granos y hacienda.
+      </p>
+    </div>
   </div>
 </div>
 
-<!-- SCROLLABLE CONTENT -->
-<div class="content">
+<div class="div-line"></div>
 
-  <!-- ═══ HOME ═══ -->
-  <div class="screen active" id="screen-home">
-    <div class="home-greeting">
-      <div class="greeting-sub">Viernes · 28 de marzo · 2026</div>
-      <div class="greeting-main">Buenos días,<br><em>Santiago.</em></div>
+<!-- ══════════════════════ PARA QUIÉN ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">Mercado</div>
+  <h2 class="section-title">Para quién<br><em>es esto</em></h2>
+  <p class="section-sub">El productor argentino que no tiene asesor permanente pero toma decisiones que valen miles de dólares.</p>
+
+  <div class="who-list">
+    <div class="who-item">
+      <div class="who-num">1</div>
+      <div>
+        <div class="who-title">El productor mediano (200–2.000 ha)</div>
+        <p class="who-desc">Tiene soja, maíz y vacas en el mismo campo. Paga un agrónomo que viene cada 15 días — y en el medio toma decisiones sin respaldo. <strong>Allpa es el asesor que lo acompaña los otros 13 días.</strong></p>
+      </div>
+    </div>
+    <div class="who-item">
+      <div class="who-num">2</div>
+      <div>
+        <div class="who-title">El ingeniero agrónomo asesor</div>
+        <p class="who-desc">Asesora 30–50 campos a la vez. Allpa le da un panel donde ve el estado de todos sus clientes y los apoya instantáneamente entre visitas. <strong>Un agrónomo que adopta Allpa trae 40 productores con él.</strong></p>
+      </div>
+    </div>
+    <div class="who-item">
+      <div class="who-num">3</div>
+      <div>
+        <div class="who-title">El veterinario de campo</div>
+        <p class="who-desc">Atiende 60–80 establecimientos ganaderos. Allpa maneja las consultas de rutina y lo llama solo cuando hay una emergencia real. <strong>Trabaja más tranquilo y atiende más clientes.</strong></p>
+      </div>
+    </div>
+    <div class="who-item">
+      <div class="who-num">4</div>
+      <div>
+        <div class="who-title">La cooperativa agropecuaria</div>
+        <p class="who-desc">Tiene miles de socios que necesitan asesoramiento técnico constante. Allpa es el beneficio digital que ninguna cooperativa les ofrece hoy. <strong>Un contrato = miles de usuarios activados.</strong></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="div-line"></div>
+
+<!-- ══════════════════════ LA OFERTA ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">La propuesta de valor</div>
+  <h2 class="section-title">La oferta<br><em>irresistible</em></h2>
+</div>
+
+<div class="offer-hero">
+  <div class="offer-glow"></div>
+  <div class="offer-tag">No-brainer offer</div>
+  <div class="offer-title">$19 al mes.<br>Por lo que antes<br><em>costaba $500.</em></div>
+  <p class="offer-body">
+    Un ingeniero agrónomo de confianza cobra entre <strong>$400 y $600 USD por mes</strong> por asesorar un campo. Y solo puede estar físicamente ahí una o dos veces por quincena.
+    <br><br>
+    Allpa está disponible <strong>24 horas al día, 7 días a la semana</strong>, conoce cada lote y cada animal del establecimiento, y recuerda cada consulta anterior. Por $19 USD al mes.
+    <br><br>
+    Una sola recomendación correcta de Allpa — sobre el timing de una aplicación de fungicida — puede salvar 4 quintales por hectárea. En 100 hectáreas, son <strong>$1.100 USD de cosecha recuperada</strong>. El retorno de la inversión es de <strong>58 veces</strong> en una sola decisión.
+  </p>
+</div>
+
+<div class="offer-compare">
+  <div class="oc-card bad">
+    <div class="oc-tag red">Sin Allpa.ai</div>
+    <div class="oc-title">El campo hoy</div>
+    <ul class="oc-items">
+      <li>El agrónomo viene cada 15 días. En el medio: solo.</li>
+      <li>Las consultas urgentes a las 3am no tienen respuesta.</li>
+      <li>El cuaderno SENASA se llena a mano o no se llena.</li>
+      <li>Los precios de la soja se miran en otro sitio.</li>
+      <li>Cada campaña, las mismas dudas sin resolver rápido.</li>
+      <li><strong>Costo del asesor permanente: $500 USD/mes</strong></li>
+    </ul>
+  </div>
+  <div class="oc-card good">
+    <div class="oc-tag green">Con Allpa.ai</div>
+    <div class="oc-title">El campo con Allpa</div>
+    <ul class="oc-items">
+      <li>Respuesta técnica en segundos, a cualquier hora.</li>
+      <li>Diagnóstico con porcentaje de certeza siempre visible.</li>
+      <li>Cuaderno SENASA se llena solo, hablando por voz.</li>
+      <li>Precios del mercado y alertas climáticas integrados.</li>
+      <li>El campo es recordado: Allpa aprende con cada consulta.</li>
+      <li><strong>Costo: $19 USD/mes — 26 veces más barato</strong></li>
+    </ul>
+  </div>
+</div>
+<div class="price-strip">
+  <div class="ps-left">
+    <div class="ps-price">$19 <span style="font-size:20px; font-weight:300; letter-spacing:0;">USD / mes</span></div>
+    <div class="ps-label">Precio de lanzamiento · Acceso completo a todos los dominios</div>
+  </div>
+  <div class="ps-right">
+    <div class="ps-roi">58× ROI</div>
+    <div class="ps-roi-label">En una sola decisión correcta de fungicida · 100 ha</div>
+  </div>
+</div>
+
+<div class="div-line" style="margin-top:0;"></div>
+
+<!-- ══════════════════════ APP SCREENS ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">La aplicación</div>
+  <h2 class="section-title">Lo que ve<br><em>el productor</em></h2>
+  <p class="section-sub">Cinco pantallas. Cada una resuelve algo concreto. Todo en el celular, diseñado para usarse a campo abierto.</p>
+
+  <div class="screens-grid">
+
+    <!-- INICIO -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="p-status"><div class="p-time">9:41</div><div class="p-icons"><div class="p-icon-bar"></div><div class="p-icon-bar"></div></div></div>
+          <div class="p-topbar"><div class="p-logo">allpa<span>.ai</span></div><div class="p-avatar">S</div></div>
+          <div class="p-scroll">
+            <div>
+              <div class="p-greeting-sm">Viernes · 28 de marzo</div>
+              <div class="p-greeting-main">Buenos días,<br><em>Santiago.</em></div>
+            </div>
+            <div class="p-card">
+              <div class="p-card-tag">Pulso del campo</div>
+              <div class="p-weather-row">
+                <div class="p-w"><div class="p-w-val">24°</div><div class="p-w-label">Máx</div></div>
+                <div class="p-w"><div class="p-w-val">72%</div><div class="p-w-label">Hum.</div></div>
+                <div class="p-w"><div class="p-w-val">18mm</div><div class="p-w-label">Ayer</div></div>
+                <div class="p-w"><div class="p-w-val">3d</div><div class="p-w-label">Sin lluvia</div></div>
+              </div>
+            </div>
+            <div class="p-card">
+              <div class="p-card-tag">Precios hoy · Matba-Rofex</div>
+              <div class="p-prices">
+                <div class="p-price"><div class="p-price-crop">Soja</div><div class="p-price-val">$284</div><div class="p-price-ch up">▲ +2.1%</div></div>
+                <div class="p-price"><div class="p-price-crop">Maíz</div><div class="p-price-val">$172</div><div class="p-price-ch dn">▼ -0.8%</div></div>
+                <div class="p-price"><div class="p-price-crop">Trigo</div><div class="p-price-val">$196</div><div class="p-price-ch up">▲ +1.2%</div></div>
+              </div>
+            </div>
+            <div class="p-alert">
+              <div class="p-alert-dot p-ad-red"></div>
+              <div class="p-alert-body">
+                <div class="p-alert-tag">Lote Norte · Soja R3</div>
+                <div class="p-alert-title">Alta presión de roya. Actuar hoy.</div>
+              </div>
+            </div>
+            <div class="p-alert">
+              <div class="p-alert-dot p-ad-amber"></div>
+              <div class="p-alert-body">
+                <div class="p-alert-tag">Rodeo · Vaca 147</div>
+                <div class="p-alert-title">Parto esperado en 3 días.</div>
+              </div>
+            </div>
+            <div class="p-lote">
+              <div class="p-lote-name">Lote Norte</div>
+              <div class="p-lote-sub">Soja · 120 ha</div>
+              <div class="p-lote-badge">R3 — Plenilunio</div>
+            </div>
+            <div class="p-lote">
+              <div class="p-lote-name">Lote Sur</div>
+              <div class="p-lote-sub">Maíz · 85 ha</div>
+              <div class="p-lote-badge amber">VT — Floración</div>
+            </div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-item active"><div class="p-nav-icon">🏠</div><div class="p-nav-label">Inicio</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🌾</div><div class="p-nav-label">Campo</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">✦</div><div class="p-nav-label">Allpa</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📋</div><div class="p-nav-label">Cuaderno</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔔</div><div class="p-nav-label">Alertas</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">
+        <div class="pl-icon">🏠</div>
+        <div class="pl-name">Inicio</div>
+        <div class="pl-sub">El pulso diario del campo</div>
+      </div>
     </div>
 
-    <!-- PULSO DEL DÍA -->
-    <div class="pulso-card">
-      <div class="pulso-header">
-        <div class="pulso-title">Pulso del campo</div>
-        <div class="pulso-date">General Pacheco</div>
+    <!-- MI CAMPO -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="p-status"><div class="p-time">9:41</div><div class="p-icons"><div class="p-icon-bar"></div></div></div>
+          <div class="p-topbar"><div class="p-logo">allpa<span>.ai</span></div><div class="p-avatar">S</div></div>
+          <div class="p-campo-hero">
+            <div class="p-campo-name">Campo El Ombú</div>
+            <div class="p-campo-loc">📍 General Pacheco, Buenos Aires</div>
+            <div class="p-campo-stats">
+              <div class="p-cs"><div class="p-cs-val">250</div><div class="p-cs-label">Hectáreas</div></div>
+              <div class="p-cs"><div class="p-cs-val">248</div><div class="p-cs-label">Cabezas</div></div>
+              <div class="p-cs"><div class="p-cs-val">3</div><div class="p-cs-label">Alertas</div></div>
+            </div>
+          </div>
+          <div class="p-scroll">
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted);">Cultivos activos</div>
+            <div style="background:var(--s2); border:0.5px solid rgba(200,64,48,.25); border-radius:6px; padding:6px 7px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+                <div>
+                  <div class="p-lote-name" style="font-size:8px;">Lote Norte</div>
+                  <div class="p-lote-sub">Soja · 120 ha</div>
+                </div>
+                <div style="font-size:5px; padding:2px 5px; background:rgba(200,64,48,.1); border:0.5px solid rgba(200,64,48,.25); border-radius:3px; color:var(--red);">⚠ Alerta</div>
+              </div>
+              <div style="font-size:5.5px; color:var(--muted); margin-bottom:2px;">R3 de R8 — 62% del ciclo</div>
+              <div class="p-prog-bar"><div class="p-prog-fill" style="width:62%"></div></div>
+            </div>
+            <div style="background:var(--s2); border:0.5px solid var(--border); border-radius:6px; padding:6px 7px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3px;">
+                <div>
+                  <div class="p-lote-name" style="font-size:8px;">Lote Sur</div>
+                  <div class="p-lote-sub">Maíz · 85 ha</div>
+                </div>
+                <div style="font-size:5px; padding:2px 5px; background:rgba(200,160,48,.1); border:0.5px solid rgba(200,160,48,.25); border-radius:3px; color:var(--gold);">Monitorear</div>
+              </div>
+              <div style="font-size:5.5px; color:var(--muted); margin-bottom:2px;">VT — 75% del ciclo</div>
+              <div class="p-prog-bar"><div class="p-prog-fill" style="width:75%"></div></div>
+            </div>
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted); margin-top:2px;">Rodeo bovino</div>
+            <div class="p-rodeo">
+              <div class="p-rodeo-header">
+                <div class="p-rodeo-title">Vacas de cría</div>
+                <div class="p-rodeo-total">248 cabezas</div>
+              </div>
+              <div class="p-rodeo-cats">
+                <div class="p-cat"><div class="p-cat-label">Vacas cría</div><div class="p-cat-val">120</div></div>
+                <div class="p-cat"><div class="p-cat-label">Terneros</div><div class="p-cat-val">68</div></div>
+                <div class="p-cat"><div class="p-cat-label">Novillada</div><div class="p-cat-val">42</div></div>
+                <div class="p-cat"><div class="p-cat-label">Toros</div><div class="p-cat-val">18</div></div>
+              </div>
+            </div>
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted); margin-top:2px;">Calendario sanitario</div>
+            <div class="p-san">
+              <div class="p-san-icon">💉</div>
+              <div class="p-san-info">
+                <div class="p-san-title">Brucelosis — Vaquillonas</div>
+                <div class="p-san-sub">18 animales · SENASA</div>
+                <div class="p-san-date">⏰ Vence en 12 días</div>
+              </div>
+              <div class="p-san-dot" style="background:var(--gold)"></div>
+            </div>
+            <div class="p-san">
+              <div class="p-san-icon">🩺</div>
+              <div class="p-san-info">
+                <div class="p-san-title">Fiebre aftosa — Rodeo completo</div>
+                <div class="p-san-sub">248 cabezas</div>
+                <div class="p-san-date" style="color:var(--green);">✅ Realizada el 15 mar</div>
+              </div>
+              <div class="p-san-dot" style="background:var(--green)"></div>
+            </div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-label">Inicio</div></div>
+            <div class="p-nav-item active"><div class="p-nav-icon">🌾</div><div class="p-nav-label">Campo</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">✦</div><div class="p-nav-label">Allpa</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📋</div><div class="p-nav-label">Cuaderno</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔔</div><div class="p-nav-label">Alertas</div></div>
+          </div>
+        </div>
       </div>
-      <div class="weather-row">
-        <div class="weather-item">
-          <div class="w-icon">🌡️</div>
-          <div class="w-val">24°</div>
-          <div class="w-label">Máx hoy</div>
-        </div>
-        <div class="weather-item">
-          <div class="w-icon">💧</div>
-          <div class="w-val">72%</div>
-          <div class="w-label">Humedad</div>
-        </div>
-        <div class="weather-item">
-          <div class="w-icon">🌧️</div>
-          <div class="w-val">18mm</div>
-          <div class="w-label">Ayer</div>
-        </div>
-        <div class="weather-item">
-          <div class="w-icon">🌤️</div>
-          <div class="w-val">3 días</div>
-          <div class="w-label">Sin lluvia</div>
+      <div class="phone-label">
+        <div class="pl-icon">🌾</div>
+        <div class="pl-name">Mi Campo</div>
+        <div class="pl-sub">Lotes, rodeo y sanidad</div>
+      </div>
+    </div>
+
+    <!-- ALLPA CHAT -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="p-status"><div class="p-time">9:41</div><div class="p-icons"><div class="p-icon-bar"></div></div></div>
+          <div class="p-chat-header">
+            <div class="p-allpa-av">A</div>
+            <div>
+              <div class="p-allpa-name">Allpa</div>
+              <div class="p-allpa-status">● Online · Campo El Ombú</div>
+            </div>
+          </div>
+          <div class="p-msgs">
+            <div class="p-msg-allpa">
+              <div class="p-bubble-allpa">Buenos días, Santi. Llovieron <strong>18mm ayer</strong> en el Lote Norte. Con la soja en R3, hoy hay alto riesgo de roya. Te mando la alerta.</div>
+            </div>
+            <div class="p-msg-user">
+              <div class="p-bubble-user">Qué me recomendás hacer hoy?</div>
+            </div>
+            <div class="p-msg-allpa">
+              <div class="p-bubble-allpa">
+                <span class="cert">87% certeza · Roya asiática</span><br>
+                Con el clima de los últimos 3 días y la etapa R3, el riesgo es real. Recomiendo:<br><br>
+                <strong>1.</strong> Salir a monitorear el Lote Norte hoy a la mañana<br>
+                <strong>2.</strong> Revisar el tercio inferior de las plantas<br>
+                <strong>3.</strong> Si confirmás, aplicar Opera 200ml/ha<br><br>
+                Costo estimado: <strong>$28–34 USD/ha</strong>. Una aplicación a tiempo puede salvar 4–6 qq/ha.
+              </div>
+            </div>
+          </div>
+          <div class="p-chips">
+            <div class="p-chip">📊 Calcular margen</div>
+            <div class="p-chip">💊 Dosis exacta</div>
+            <div class="p-chip">📋 Registrar</div>
+          </div>
+          <div class="p-input-area">
+            <div style="width:16px; height:16px; background:var(--s2); border:0.5px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:8px; flex-shrink:0;">🎙</div>
+            <div class="p-input">Preguntale a Allpa...</div>
+            <div class="p-send">➤</div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-label">Inicio</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🌾</div><div class="p-nav-label">Campo</div></div>
+            <div class="p-nav-item active"><div class="p-nav-icon">✦</div><div class="p-nav-label">Allpa</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📋</div><div class="p-nav-label">Cuaderno</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔔</div><div class="p-nav-label">Alertas</div></div>
+          </div>
         </div>
       </div>
-      <div class="price-row">
-        <div class="price-item">
-          <div class="p-crop">Soja</div>
-          <div class="p-val">$284</div>
-          <div class="p-change up">▲ +2.1%</div>
+      <div class="phone-label">
+        <div class="pl-icon">✦</div>
+        <div class="pl-name">Allpa</div>
+        <div class="pl-sub">El asesor conversacional</div>
+      </div>
+    </div>
+
+    <!-- CUADERNO -->
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="p-status"><div class="p-time">9:41</div><div class="p-icons"><div class="p-icon-bar"></div></div></div>
+          <div class="p-topbar">
+            <div style="font-family:'Fraunces',serif; font-size:9px; font-weight:700; color:var(--cream);">Cuaderno de campo</div>
+            <div style="font-size:5.5px; color:var(--muted);">Registros SENASA</div>
+          </div>
+          <div class="p-ctabs">
+            <div class="p-ctab active">Fitosanitarios</div>
+            <div class="p-ctab">Sanitario</div>
+            <div class="p-ctab">Lluvias</div>
+          </div>
+          <div class="p-scroll" style="position:relative;">
+            <div class="p-registro">
+              <div class="p-reg-top">
+                <div class="p-reg-date">28 MAR · 07:30</div>
+                <div class="p-reg-lote">Lote Norte</div>
+              </div>
+              <div class="p-reg-title">Aplicación fungicida — Opera 200ml/ha</div>
+              <div class="p-reg-detail">120 ha · Soja R3 · Equipo JD4940 · 18°C · Sin viento</div>
+              <div class="p-reg-tags">
+                <div class="p-reg-tag senasa">SENASA ✓</div>
+                <div class="p-reg-tag">Carencia: 14d</div>
+                <div class="p-reg-tag">Voz 🎙</div>
+              </div>
+            </div>
+            <div class="p-registro">
+              <div class="p-reg-top">
+                <div class="p-reg-date">22 MAR · 09:15</div>
+                <div class="p-reg-lote">Lote Sur</div>
+              </div>
+              <div class="p-reg-title">Herbicida — Glifosato 3l/ha + Atrazina 1l/ha</div>
+              <div class="p-reg-detail">85 ha · Maíz VT · Control malezas gramíneas</div>
+              <div class="p-reg-tags">
+                <div class="p-reg-tag senasa">SENASA ✓</div>
+                <div class="p-reg-tag">Carencia: 21d</div>
+              </div>
+            </div>
+            <div class="p-registro">
+              <div class="p-reg-top">
+                <div class="p-reg-date">15 MAR · 08:00</div>
+                <div class="p-reg-lote">Lote Norte</div>
+              </div>
+              <div class="p-reg-title">Insecticida — Karate 100ml/ha</div>
+              <div class="p-reg-detail">120 ha · Soja R1 · Control defoliadores</div>
+              <div class="p-reg-tags">
+                <div class="p-reg-tag senasa">SENASA ✓</div>
+              </div>
+            </div>
+            <div class="p-fab">🎙</div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-label">Inicio</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🌾</div><div class="p-nav-label">Campo</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">✦</div><div class="p-nav-label">Allpa</div></div>
+            <div class="p-nav-item active"><div class="p-nav-icon">📋</div><div class="p-nav-label">Cuaderno</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🔔</div><div class="p-nav-label">Alertas</div></div>
+          </div>
         </div>
-        <div class="price-item">
-          <div class="p-crop">Maíz</div>
-          <div class="p-val">$172</div>
-          <div class="p-change dn">▼ -0.8%</div>
-        </div>
-        <div class="price-item">
-          <div class="p-crop">Trigo</div>
-          <div class="p-val">$196</div>
-          <div class="p-change up">▲ +1.2%</div>
-        </div>
+      </div>
+      <div class="phone-label">
+        <div class="pl-icon">📋</div>
+        <div class="pl-name">Cuaderno</div>
+        <div class="pl-sub">Registros legales automáticos</div>
       </div>
     </div>
 
     <!-- ALERTAS -->
-    <div class="section-label">
-      <span>Alertas activas</span>
-      <span class="see-all" onclick="showTab('alertas')">Ver todas</span>
-    </div>
-
-    <div class="alert-card" onclick="showTab('chat')">
-      <div class="alert-dot ad-red"></div>
-      <div class="alert-body">
-        <div class="alert-tag">Lote Norte · Soja R3</div>
-        <div class="alert-title">Alta presión de roya. Condiciones ideales hoy.</div>
-        <div class="alert-sub">Humedad + templado post-lluvia = ventana de infección</div>
-      </div>
-      <div class="alert-time">Hace 1h</div>
-    </div>
-
-    <div class="alert-card">
-      <div class="alert-dot ad-amber"></div>
-      <div class="alert-body">
-        <div class="alert-tag">Rodeo · Vaca 147</div>
-        <div class="alert-title">Parto esperado en los próximos 3 días.</div>
-        <div class="alert-sub">Revisar signos: edema de ubre, ligamentos</div>
-      </div>
-      <div class="alert-time">Hoy</div>
-    </div>
-
-    <div class="alert-card">
-      <div class="alert-dot ad-green"></div>
-      <div class="alert-body">
-        <div class="alert-tag">SENASA · Zona</div>
-        <div class="alert-title">Sin alertas sanitarias activas en tu partido.</div>
-        <div class="alert-sub">Última verificación hace 2 horas</div>
-      </div>
-      <div class="alert-time">8:02</div>
-    </div>
-
-    <!-- LOTES RÁPIDOS -->
-    <div class="section-label">
-      <span>Tus lotes</span>
-      <span class="see-all" onclick="showTab('campo')">Ver campo</span>
-    </div>
-    <div class="lote-scroll">
-      <div class="lote-mini" onclick="showTab('campo')">
-        <div class="lm-name">Lote Norte</div>
-        <div class="lm-crop">Soja · 120 ha</div>
-        <div class="lm-stage">R3 — Plenilunio</div>
-      </div>
-      <div class="lote-mini" onclick="showTab('campo')">
-        <div class="lm-name">Lote Sur</div>
-        <div class="lm-crop">Maíz · 85 ha</div>
-        <div class="lm-stage amber">VT — Floración</div>
-      </div>
-      <div class="lote-mini" onclick="showTab('campo')">
-        <div class="lm-name">Potrero 1</div>
-        <div class="lm-crop">Pastura · 45 ha</div>
-        <div class="lm-stage">Rotación</div>
-      </div>
-    </div>
-
-    <!-- ACCESOS RÁPIDOS -->
-    <div class="section-label"><span>Acceso rápido</span></div>
-    <div class="quick-grid">
-      <div class="quick-btn" onclick="showTab('chat')">
-        <div class="qb-icon">💬</div>
-        <div class="qb-label">Consultarle a Allpa</div>
-        <div class="qb-sub">IA disponible 24/7</div>
-      </div>
-      <div class="quick-btn" onclick="showTab('cuaderno')">
-        <div class="qb-icon">📋</div>
-        <div class="qb-label">Cuaderno SENASA</div>
-        <div class="qb-sub">Registrar por voz</div>
-      </div>
-      <div class="quick-btn" onclick="showTab('campo')">
-        <div class="qb-icon">🐄</div>
-        <div class="qb-label">Parte del rodeo</div>
-        <div class="qb-sub">248 cabezas activas</div>
-      </div>
-      <div class="quick-btn" onclick="showTab('chat')">
-        <div class="qb-icon">📸</div>
-        <div class="qb-label">Foto + diagnóstico</div>
-        <div class="qb-sub">Subí la foto al chat</div>
-      </div>
-    </div>
-
-    <div class="tag-line">La tierra siempre supo. Ahora habla.</div>
-  </div>
-
-  <!-- ═══ CAMPO ═══ -->
-  <div class="screen" id="screen-campo">
-    <div class="campo-hero">
-      <div class="campo-name">Campo El Ombú</div>
-      <div class="campo-location">General Pacheco, Buenos Aires · Pampa Húmeda</div>
-      <div class="campo-stats">
-        <div class="cstat">
-          <div class="cs-val">250</div>
-          <div class="cs-label">Hectáreas</div>
-        </div>
-        <div class="cstat">
-          <div class="cs-val">248</div>
-          <div class="cs-label">Cabezas</div>
-        </div>
-        <div class="cstat">
-          <div class="cs-val">3</div>
-          <div class="cs-label">Alertas</div>
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="phone-inner">
+          <div class="p-status"><div class="p-time">9:41</div><div class="p-icons"><div class="p-icon-bar"></div></div></div>
+          <div class="p-topbar">
+            <div style="font-family:'Fraunces',serif; font-size:9px; font-weight:700; color:var(--cream);">Alertas</div>
+            <div style="font-size:5.5px; background:var(--red); color:white; padding:1px 5px; border-radius:8px; font-family:'Geist Mono',monospace;">3</div>
+          </div>
+          <div class="p-scroll">
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted);">Activas</div>
+            <div class="p-alerta" style="background:rgba(200,64,48,.06); border:0.5px solid rgba(200,64,48,.2);">
+              <div class="p-alerta-priority">
+                <div class="p-alerta-dot p-ad-red" style="box-shadow:0 0 4px rgba(200,64,48,.6)"></div>
+                <div>
+                  <div class="p-alerta-tag">🌱 Lote Norte · Soja R3</div>
+                  <div class="p-alerta-title">Alta presión de roya asiática</div>
+                  <div class="p-alerta-sub">18mm lluvia + 72% humedad → ventana de infección de 48hs</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-alerta" style="background:rgba(200,160,48,.06); border:0.5px solid rgba(200,160,48,.2);">
+              <div class="p-alerta-priority">
+                <div class="p-alerta-dot p-ad-amber"></div>
+                <div>
+                  <div class="p-alerta-tag">🐄 Rodeo · Vaca 147</div>
+                  <div class="p-alerta-title">Parto inminente — próximos 3 días</div>
+                  <div class="p-alerta-sub">Revisar edema de ubre y ligamentos hoy</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-alerta" style="background:rgba(200,160,48,.06); border:0.5px solid rgba(200,160,48,.2);">
+              <div class="p-alerta-priority">
+                <div class="p-alerta-dot p-ad-amber"></div>
+                <div>
+                  <div class="p-alerta-tag">💉 Sanitario · SENASA</div>
+                  <div class="p-alerta-title">Brucelosis vence en 12 días</div>
+                  <div class="p-alerta-sub">18 vaquillonas · Coordinar veterinario</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted); margin-top:4px;">Resueltas esta semana</div>
+            <div class="p-alerta" style="opacity:.45;">
+              <div class="p-alerta-priority">
+                <div class="p-alerta-dot" style="background:var(--muted)"></div>
+                <div>
+                  <div class="p-alerta-tag">🌽 Lote Sur · Maíz</div>
+                  <div class="p-alerta-title">Chicharrita — umbral superado</div>
+                  <div class="p-alerta-sub">Resuelta. Aplicación 22/03 exitosa. ✓</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-card-tag" style="font-size:5.5px; letter-spacing:1.5px; color:var(--muted); margin-top:4px;">Sin alertas sanitarias activas<br>en tu zona. Verificado hace 2hs.</div>
+            <div class="p-alerta">
+              <div class="p-alerta-priority">
+                <div class="p-alerta-dot p-ad-green"></div>
+                <div>
+                  <div class="p-alerta-tag">SENASA · Zona General Pacheco</div>
+                  <div class="p-alerta-title">Todo en orden en tu área</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-nav">
+            <div class="p-nav-item"><div class="p-nav-icon">🏠</div><div class="p-nav-label">Inicio</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">🌾</div><div class="p-nav-label">Campo</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">✦</div><div class="p-nav-label">Allpa</div></div>
+            <div class="p-nav-item"><div class="p-nav-icon">📋</div><div class="p-nav-label">Cuaderno</div></div>
+            <div class="p-nav-item active"><div class="p-nav-icon">🔔</div><div class="p-nav-label">Alertas</div></div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- CULTIVOS -->
-    <div class="section-label section-pad"><span>Cultivos activos</span></div>
-
-    <div class="lote-item">
-      <div class="lote-header">
-        <div class="lote-info">
-          <div class="l-name">Lote Norte</div>
-          <div class="l-sub">Soja · 120 ha · Sembrado 15 nov</div>
-        </div>
-        <div class="l-badge lb-alert">⚠ Alerta</div>
-      </div>
-      <div class="lote-progress">
-        <div class="prog-label">Ciclo: R3 de R8 (Plenilunio) — 62% del ciclo</div>
-        <div class="prog-bar"><div class="prog-fill" style="width:62%"></div></div>
-      </div>
-      <div class="lote-data">
-        <div class="ld-item"><div class="ld-val">28°</div><div class="ld-key">Temp. hoy</div></div>
-        <div class="ld-item"><div class="ld-val">18mm</div><div class="ld-key">Lluvia ayer</div></div>
-        <div class="ld-item"><div class="ld-val">Roya</div><div class="ld-key">Alerta</div></div>
+      <div class="phone-label">
+        <div class="pl-icon">🔔</div>
+        <div class="pl-name">Alertas</div>
+        <div class="pl-sub">El radar del campo</div>
       </div>
     </div>
 
-    <div class="lote-item">
-      <div class="lote-header">
-        <div class="lote-info">
-          <div class="l-name">Lote Sur</div>
-          <div class="l-sub">Maíz · 85 ha · Sembrado 20 oct</div>
-        </div>
-        <div class="l-badge lb-warn">Monitorear</div>
-      </div>
-      <div class="lote-progress">
-        <div class="prog-label">Ciclo: VT (Floración) — 75% del ciclo</div>
-        <div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div>
-      </div>
-      <div class="lote-data">
-        <div class="ld-item"><div class="ld-val">VT</div><div class="ld-key">Etapa</div></div>
-        <div class="ld-item"><div class="ld-val">Normal</div><div class="ld-key">Estado</div></div>
-        <div class="ld-item"><div class="ld-val">12 días</div><div class="ld-key">A cosecha</div></div>
-      </div>
-    </div>
-
-    <!-- RODEO -->
-    <div class="section-label"><span>Rodeo bovino</span></div>
-
-    <div class="rodeo-summary">
-      <div class="rs-header">
-        <div class="rs-title">Vacas de cría</div>
-        <div class="rs-total"><strong>248</strong> cabezas totales</div>
-      </div>
-      <div class="rs-cats">
-        <div class="rs-cat">
-          <div class="rc-label">Vacas de cría</div>
-          <div class="rc-val">120</div>
-          <div class="rc-note">3 próximas a parir</div>
-        </div>
-        <div class="rs-cat">
-          <div class="rc-label">Terneros</div>
-          <div class="rc-val">68</div>
-          <div class="rc-note">Temporada actual</div>
-        </div>
-        <div class="rs-cat">
-          <div class="rc-label">Novillada</div>
-          <div class="rc-val">42</div>
-          <div class="rc-note">Invernada</div>
-        </div>
-        <div class="rs-cat">
-          <div class="rc-label">Toros</div>
-          <div class="rc-val">18</div>
-          <div class="rc-note">Servicio</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SANITARIO -->
-    <div class="section-label"><span>Calendario sanitario</span></div>
-
-    <div class="san-item">
-      <div class="san-icon">💉</div>
-      <div class="san-info">
-        <div class="si-title">Brucelosis — Vaquillonas</div>
-        <div class="si-sub">18 animales · Obligatorio SENASA</div>
-        <div class="si-date">⏰ Vence en 12 días — 9 de abril</div>
-      </div>
-      <div class="san-status" style="background:var(--gold)"></div>
-    </div>
-
-    <div class="san-item">
-      <div class="san-icon">🩺</div>
-      <div class="san-info">
-        <div class="si-title">Fiebre aftosa — Rodeo completo</div>
-        <div class="si-sub">248 cabezas · Vacunación biestacional</div>
-        <div class="si-date">✅ Realizada el 15 de marzo</div>
-      </div>
-      <div class="san-status" style="background:var(--green)"></div>
-    </div>
-
-    <div class="san-item">
-      <div class="san-icon">🐛</div>
-      <div class="san-info">
-        <div class="si-title">Desparasitación — Categorías jóvenes</div>
-        <div class="si-sub">110 animales · Ivermectina 1%</div>
-        <div class="si-date">📅 Programada para 15 de abril</div>
-      </div>
-      <div class="san-status" style="background:var(--muted)"></div>
-    </div>
-
-    <div style="height:20px;"></div>
-  </div>
-
-  <!-- ═══ CHAT ═══ -->
-  <div class="screen chat-screen" id="screen-chat">
-    <div class="chat-header">
-      <div class="allpa-avatar">A</div>
-      <div class="allpa-info">
-        <div class="allpa-name">Allpa</div>
-        <div class="allpa-status">Online · Campo El Ombú activo</div>
-      </div>
-    </div>
-
-    <div class="chat-scroll" id="chatScroll">
-      <!-- contexto automático -->
-      <div style="text-align:center; padding:4px 0;">
-        <span style="font-family:'Geist Mono',monospace; font-size:9px; color:var(--muted); background:var(--s2); border:1px solid var(--border); padding:4px 12px; border-radius:20px; letter-spacing:1px;">
-          CAMPO EL OMBÚ · 28 MAR · 9:41
-        </span>
-      </div>
-
-      <div class="msg allpa">
-        <div class="bubble allpa">
-          Buenos días, Santi. Ya vi que llovieron <strong>18mm ayer</strong> en el Lote Norte y la humedad sigue alta. Con la soja en R3, las condiciones de hoy son de <strong>alto riesgo para roya asiática</strong>. Te mando la alerta antes de que salgas al campo.
-        </div>
-        <div class="msg-time">9:02</div>
-      </div>
-
-      <div class="msg user">
-        <div class="bubble user">Si, vi la alerta. Qué me recomendás hacer hoy?</div>
-        <div class="msg-time">9:38</div>
-      </div>
-
-      <div class="msg allpa">
-        <div class="bubble allpa">
-          <span class="cert">87% certeza · Roya asiática</span><br>
-          Dado el clima de los últimos 3 días y la etapa R3, el riesgo es <strong>real y urgente</strong>. Recomiendo:<br><br>
-          <strong>1.</strong> Salir a monitorear el Lote Norte hoy a la mañana, antes del calor<br>
-          <strong>2.</strong> Revisar el tercio inferior de las plantas — primeras pústulas aparecen abajo<br>
-          <strong>3.</strong> Si confirmás lesiones, aplicar con <strong>Opera 200ml/ha</strong> o <strong>Fox Xpro 400ml/ha</strong><br><br>
-          Costo estimado: <strong>$28–34 USD/ha</strong>. Con 120ha sería ~$3.600 USD. Una aplicación a tiempo puede salvar 4–6 qq/ha.<br><br>
-          ¿Querés que calcule el margen exacto?
-        </div>
-        <div class="msg-time">9:39</div>
-      </div>
-    </div>
-
-    <!-- SUGERENCIAS -->
-    <div class="chat-chips">
-      <div class="chip" onclick="addMsg('Calculá el margen si no aplico')">📊 Calcular margen si no aplico</div>
-      <div class="chip" onclick="addMsg('Qué dosis exacta de Opera?')">💊 Dosis exacta de Opera</div>
-      <div class="chip" onclick="addMsg('Registrar aplicación en cuaderno')">📋 Registrar en cuaderno</div>
-      <div class="chip" onclick="addMsg('Estado del Lote Sur')">🌽 Estado Lote Sur</div>
-    </div>
-
-    <div class="chat-input-area">
-      <button class="voice-btn" onclick="addVoiceMsg()">🎙️</button>
-      <textarea class="input-box" id="msgInput" placeholder="Preguntale a Allpa..." rows="1" oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
-      <button class="send-btn" onclick="sendMsg()">
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <path d="M1 9L17 1L9 17L8 10L1 9Z" fill="#080B05" stroke="#080B05" stroke-width="1.5" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- ═══ CUADERNO ═══ -->
-  <div class="screen" id="screen-cuaderno">
-    <div style="padding:20px 20px 0;">
-      <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); letter-spacing:-0.5px;">Cuaderno de campo</div>
-      <div style="font-size:12px; color:var(--muted); margin-top:4px;">Registros automáticos SENASA</div>
-    </div>
-
-    <div class="cuaderno-tabs">
-      <div class="ctab active" onclick="switchTab(this,'fitosanitarios')">Fitosanitarios</div>
-      <div class="ctab" onclick="switchTab(this,'sanitario')">Sanitario</div>
-      <div class="ctab" onclick="switchTab(this,'lluvias')">Lluvias</div>
-    </div>
-
-    <div id="tab-fitosanitarios">
-      <div class="registro-item">
-        <div class="ri-top">
-          <div class="ri-date">28 MAR 2026 · 07:30</div>
-          <div class="ri-lote">Lote Norte</div>
-        </div>
-        <div class="ri-title">Aplicación fungicida — Opera 200ml/ha</div>
-        <div class="ri-detail">120 ha · Soja R3 · Equipo autopropulsado JD4940 · Temperatura 18°C · Sin viento</div>
-        <div class="ri-tags">
-          <div class="ri-tag senasa">SENASA ✓</div>
-          <div class="ri-tag">Carencia: 14 días</div>
-          <div class="ri-tag">Voz</div>
-        </div>
-      </div>
-
-      <div class="registro-item">
-        <div class="ri-top">
-          <div class="ri-date">22 MAR 2026 · 09:15</div>
-          <div class="ri-lote">Lote Sur</div>
-        </div>
-        <div class="ri-title">Aplicación herbicida — Glifosato 3l/ha + Atrazina 1l/ha</div>
-        <div class="ri-detail">85 ha · Maíz VT · Control de malezas gramíneas y latifoliadas</div>
-        <div class="ri-tags">
-          <div class="ri-tag senasa">SENASA ✓</div>
-          <div class="ri-tag">Carencia: 21 días</div>
-        </div>
-      </div>
-
-      <div class="registro-item">
-        <div class="ri-top">
-          <div class="ri-date">15 MAR 2026 · 08:00</div>
-          <div class="ri-lote">Lote Norte</div>
-        </div>
-        <div class="ri-title">Aplicación insecticida — Karate 100ml/ha</div>
-        <div class="ri-detail">120 ha · Soja R1 · Control de defoliadores · Superó umbral INTA</div>
-        <div class="ri-tags">
-          <div class="ri-tag senasa">SENASA ✓</div>
-          <div class="ri-tag">Lote cerrado 7 días</div>
-        </div>
-      </div>
-    </div>
-
-    <div id="tab-sanitario" style="display:none;">
-      <div class="registro-item">
-        <div class="ri-top">
-          <div class="ri-date">15 MAR 2026</div>
-          <div class="ri-lote">Rodeo completo</div>
-        </div>
-        <div class="ri-title">Vacunación fiebre aftosa — 248 animales</div>
-        <div class="ri-detail">Producto: Aftovac 20 · Dosis: 2ml/animal · Veterinario: Dr. González · RENSPA: 06-001-23456</div>
-        <div class="ri-tags">
-          <div class="ri-tag senasa">SENASA ✓</div>
-          <div class="ri-tag">RENSPA ✓</div>
-          <div class="ri-tag">Obligatorio</div>
-        </div>
-      </div>
-      <div class="registro-item">
-        <div class="ri-top">
-          <div class="ri-date">20 FEB 2026</div>
-          <div class="ri-lote">Vaca 147</div>
-        </div>
-        <div class="ri-title">Tratamiento hipocalcemia puerperal</div>
-        <div class="ri-detail">Gluconato de calcio 500ml IV · Recuperación completa en 3h · Post-parto día 8</div>
-        <div class="ri-tags">
-          <div class="ri-tag">RENSPA ✓</div>
-          <div class="ri-tag">Voz</div>
-        </div>
-      </div>
-    </div>
-
-    <div id="tab-lluvias" style="display:none;">
-      <div class="registro-item">
-        <div class="ri-top"><div class="ri-date">27 MAR · Ayer</div><div class="ri-lote">Campo completo</div></div>
-        <div class="ri-title">Lluvia: 18mm</div>
-        <div class="ri-detail">Duración 2.5h · Sin granizo · Suelo en buenas condiciones</div>
-        <div class="ri-tags"><div class="ri-tag">Automático</div></div>
-      </div>
-      <div class="registro-item">
-        <div class="ri-top"><div class="ri-date">21 MAR</div><div class="ri-lote">Campo completo</div></div>
-        <div class="ri-title">Lluvia: 6mm</div>
-        <div class="ri-detail">Duración 45min · Llovizna intermitente</div>
-        <div class="ri-tags"><div class="ri-tag">Automático</div></div>
-      </div>
-    </div>
-
-    <!-- FAB -->
-    <div class="fab-voice" id="fabVoice" onclick="recordVoice()" title="Registrar por voz">🎙️</div>
-
-    <div style="height:80px;"></div>
-  </div>
-
-  <!-- ═══ ALERTAS ═══ -->
-  <div class="screen" id="screen-alertas">
-    <div style="padding:20px 20px 0;">
-      <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); letter-spacing:-0.5px;">Alertas</div>
-      <div style="font-size:12px; color:var(--muted); margin-top:4px;">3 activas · 2 resueltas</div>
-    </div>
-
-    <div class="section-label section-pad"><span>Activas</span></div>
-
-    <div class="alert-card" onclick="showTab('chat')">
-      <div class="alert-dot ad-red"></div>
-      <div class="alert-body">
-        <div class="alert-tag">🌱 Lote Norte · Soja R3</div>
-        <div class="alert-title">Alta presión de roya asiática</div>
-        <div class="alert-sub">18mm lluvia + humedad 72% → condiciones ideales de infección. Ventana de 48hs para actuar.</div>
-      </div>
-    </div>
-
-    <div class="alert-card">
-      <div class="alert-dot ad-amber"></div>
-      <div class="alert-body">
-        <div class="alert-tag">🐄 Rodeo · Vaca 147</div>
-        <div class="alert-title">Parto inminente — próximos 3 días</div>
-        <div class="alert-sub">Signos: edema ubre, relajación ligamentos. Revisar tarde de hoy.</div>
-      </div>
-    </div>
-
-    <div class="alert-card">
-      <div class="alert-dot ad-amber"></div>
-      <div class="alert-body">
-        <div class="alert-tag">💉 Sanitario · SENASA</div>
-        <div class="alert-title">Brucelosis vence en 12 días</div>
-        <div class="alert-sub">18 vaquillonas pendientes. Coordinar veterinario antes del 9 de abril.</div>
-      </div>
-    </div>
-
-    <div class="section-label"><span>Resueltas esta semana</span></div>
-
-    <div class="alert-card" style="opacity:.5;">
-      <div class="alert-dot" style="background:var(--muted)"></div>
-      <div class="alert-body">
-        <div class="alert-tag">🌽 Lote Sur · Maíz</div>
-        <div class="alert-title">Chicharrita — umbral superado</div>
-        <div class="alert-sub">Resuelta. Aplicación 22/03 exitosa.</div>
-      </div>
-      <div class="alert-time">✓</div>
-    </div>
-
-    <div style="height:20px;"></div>
-  </div>
-
-</div><!-- end content -->
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <div class="nav-item active" id="nav-home" onclick="showTab('home')">
-    <div class="nav-icon">🏠</div>
-    <div class="nav-label">Inicio</div>
-  </div>
-  <div class="nav-item" id="nav-campo" onclick="showTab('campo')">
-    <div class="nav-icon">🌾</div>
-    <div class="nav-label">Mi campo</div>
-  </div>
-  <div class="nav-item" id="nav-chat" onclick="showTab('chat')">
-    <div class="nav-icon">✦</div>
-    <div class="nav-label">Allpa</div>
-  </div>
-  <div class="nav-item" id="nav-cuaderno" onclick="showTab('cuaderno')">
-    <div class="nav-icon">📋</div>
-    <div class="nav-label">Cuaderno</div>
-  </div>
-  <div class="nav-item" id="nav-alertas" onclick="showTab('alertas')" style="position:relative;">
-    <div class="nav-icon">🔔</div>
-    <div class="nav-label">Alertas</div>
-    <div style="position:absolute; top:8px; right:22px; background:var(--red); color:white; font-family:'Geist Mono',monospace; font-size:8px; padding:1px 5px; border-radius:10px;">3</div>
-  </div>
+  </div><!-- end screens-grid -->
 </div>
 
-<script>
-// ── TAB SWITCHING ──
-function showTab(tab) {
-  // hide all screens
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+<div class="div-line"></div>
 
-  const screen = document.getElementById('screen-' + tab);
-  const nav = document.getElementById('nav-' + tab);
+<!-- ══════════════════════ PANTALLAS DESCRIPCIÓN ══════════════════════ -->
+<div class="wrap">
+  <div class="section-label">Pantalla por pantalla</div>
+  <h2 class="section-title">Qué hace<br><em>cada pantalla</em></h2>
+  <p class="section-sub">Cinco pantallas, cada una con un propósito concreto. Sin funciones de relleno.</p>
+</div>
 
-  if (screen) { screen.classList.add('active'); screen.style.display = ''; }
-  if (nav) nav.classList.add('active');
+<div style="display:flex; flex-direction:column; gap:2px; margin:0 80px 100px;">
 
-  // scroll chat to bottom
-  if (tab === 'chat') {
-    setTimeout(() => {
-      const s = document.getElementById('chatScroll');
-      if(s) s.scrollTop = s.scrollHeight;
-    }, 50);
-  }
-}
+  <div class="sd-item" style="background:var(--s1);">
+    <div class="sd-text">
+      <div class="sd-num">1</div>
+      <div class="sd-tag">🏠 Inicio · El Pulso del Campo</div>
+      <div class="sd-title">Todo lo importante en 10 segundos</div>
+      <p class="sd-body">El productor abre la app a las 6am antes de salir al campo. En una pantalla ve el clima real del día, los precios de soja y maíz de ese momento, las alertas que requieren atención hoy, y el estado resumido de cada lote.</p>
+      <ul class="sd-features">
+        <li><strong>Clima en tiempo real</strong> por GPS del establecimiento — temperatura, humedad, lluvia de ayer, días sin lluvia</li>
+        <li><strong>Precios Matba-Rofex</strong> actualizados — soja, maíz, trigo con variación del día</li>
+        <li><strong>Alertas con prioridad visual</strong> — rojo urgente, amarillo atención, verde informativo</li>
+        <li><strong>Lotes con etapa fenológica calculada</strong> — Allpa sabe que la soja está en R3 sin que el productor lo ingrese</li>
+      </ul>
+    </div>
+    <div style="background:var(--s2); border:1px solid var(--border); padding:32px; display:flex; flex-direction:column; gap:12px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase; margin-bottom:4px;">Lo que el productor ve al abrir la app</div>
+      <div style="background:var(--green-hi); border:1px solid var(--bhi); padding:16px 20px; border-radius:4px;">
+        <div style="font-size:13px; color:var(--green); font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">Pulso del campo</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div><div style="font-size:11px; color:var(--muted);">Clima hoy</div><div style="font-family:'Fraunces',serif; font-size:24px; font-weight:700; color:var(--cream);">24° · 72% hum.</div></div>
+          <div><div style="font-size:11px; color:var(--muted);">Soja disponible</div><div style="font-family:'Fraunces',serif; font-size:24px; font-weight:700; color:var(--cream);">$284 <span style="color:var(--green); font-size:14px;">▲</span></div></div>
+        </div>
+      </div>
+      <div style="background:rgba(200,64,48,.08); border:1px solid rgba(200,64,48,.2); padding:14px 18px; border-radius:4px; display:flex; gap:10px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:var(--red); box-shadow:0 0 8px rgba(200,64,48,.6); flex-shrink:0; margin-top:4px;"></div>
+        <div><div style="font-size:11px; color:var(--muted); margin-bottom:3px;">Lote Norte · Soja R3</div><div style="font-size:14px; color:var(--cream); font-weight:500;">Alta presión de roya. Actuar hoy.</div></div>
+      </div>
+    </div>
+  </div>
 
-// ── CHAT ──
-function handleKey(e) {
-  if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
-}
+  <div class="sd-item" style="background:var(--s1);">
+    <div style="background:var(--s2); border:1px solid var(--border); padding:32px; display:flex; flex-direction:column; gap:10px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;">El perfil del establecimiento</div>
+      <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); letter-spacing:-0.5px;">Campo El Ombú</div>
+      <div style="font-size:12px; color:var(--muted);">📍 General Pacheco, Buenos Aires</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:4px;">
+        <div style="background:var(--s3); padding:12px; text-align:center; border-radius:4px;"><div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream);">250</div><div style="font-size:10px; color:var(--muted);">Hectáreas</div></div>
+        <div style="background:var(--s3); padding:12px; text-align:center; border-radius:4px;"><div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream);">248</div><div style="font-size:10px; color:var(--muted);">Cabezas</div></div>
+        <div style="background:var(--s3); padding:12px; text-align:center; border-radius:4px;"><div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream);">2</div><div style="font-size:10px; color:var(--muted);">Lotes activos</div></div>
+      </div>
+      <div style="margin-top:8px;">
+        <div style="font-size:11px; color:var(--muted); margin-bottom:6px;">Rodeo · Vacas de cría</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+          <div style="background:var(--s3); padding:10px; border-radius:4px;"><div style="font-size:10px; color:var(--muted);">Vacas cría</div><div style="font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--cream);">120</div></div>
+          <div style="background:var(--s3); padding:10px; border-radius:4px;"><div style="font-size:10px; color:var(--muted);">Terneros</div><div style="font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--cream);">68</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="sd-text">
+      <div class="sd-num">2</div>
+      <div class="sd-tag">🌾 Mi Campo · El perfil del establecimiento</div>
+      <div class="sd-title">El campo de memoria, no de papel</div>
+      <p class="sd-body">Una pantalla que centraliza todo lo que tiene el productor: sus lotes con el progreso de campaña calculado automáticamente, el rodeo desglosado por categoría, y el calendario sanitario con las fechas de vencimiento de cada vacunación.</p>
+      <ul class="sd-features">
+        <li><strong>Perfil del campo</strong> con nombre, ubicación y superficie — configurado una sola vez</li>
+        <li><strong>Lotes con progreso de ciclo</strong> — Allpa calcula la etapa fenológica por fecha y zona, el productor no la ingresa nunca</li>
+        <li><strong>Rodeo por categoría</strong> — vacas de cría, terneros, novillada, toros — con alertas de partos próximos</li>
+        <li><strong>Calendario sanitario</strong> con semáforo de vencimientos — rojo urgente, amarillo próximo, verde al día</li>
+      </ul>
+    </div>
+  </div>
 
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
-}
+  <div class="sd-item" style="background:var(--s1);">
+    <div class="sd-text">
+      <div class="sd-num">3</div>
+      <div class="sd-tag">✦ Allpa · El asesor conversacional</div>
+      <div class="sd-title">El corazón del producto</div>
+      <p class="sd-body">El productor escribe o habla como si le mandara un WhatsApp a alguien de confianza. Allpa responde como un agrónomo y veterinario que conoce el campo específico, siempre con el porcentaje de certeza visible.</p>
+      <ul class="sd-features">
+        <li><strong>Contexto automático</strong> — Allpa ya sabe qué cultivos tiene, cómo llovió ayer y qué alertas hay activas. No hay que explicarle nada.</li>
+        <li><strong>Certeza explícita</strong> — cada respuesta muestra el porcentaje de seguridad del diagnóstico. Si no sabe con más del 70%, lo dice.</li>
+        <li><strong>Input por voz</strong> — el productor habla mientras trabaja. Allpa transcribe y responde.</li>
+        <li><strong>Chips de sugerencias</strong> — preguntas de seguimiento contextuales para ir más profundo sin teclear.</li>
+        <li><strong>Tres dominios</strong> — agricultura, ganadería y veterinaria en la misma conversación.</li>
+      </ul>
+    </div>
+    <div style="background:var(--s2); border:1px solid var(--bhi); padding:32px; display:flex; flex-direction:column; gap:12px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;">Una consulta real</div>
+      <div style="background:var(--green); padding:14px 18px; border-radius:12px 12px 4px 12px; max-width:85%; margin-left:auto;">
+        <div style="font-size:13px; color:var(--ink); font-weight:500;">Qué me recomendás hacer con la roya de hoy?</div>
+      </div>
+      <div style="background:var(--s3); border:1px solid var(--border); padding:14px 18px; border-radius:12px 12px 12px 4px; max-width:90%;">
+        <div style="display:inline-block; background:rgba(138,200,64,.15); border:1px solid rgba(138,200,64,.3); border-radius:20px; padding:3px 10px; font-size:11px; color:var(--green); margin-bottom:8px; font-family:'Geist Mono',monospace;">87% certeza · Roya asiática</div>
+        <div style="font-size:13.5px; color:var(--cream); line-height:1.7;">Dado el clima de los últimos 3 días y la etapa <strong style="color:var(--green);">R3</strong>, el riesgo es real. Aplicar <strong style="color:var(--green);">Opera 200ml/ha</strong>. Costo: $28–34 USD/ha. Una aplicación a tiempo puede salvar <strong style="color:var(--green);">4–6 qq/ha</strong>.</div>
+      </div>
+    </div>
+  </div>
 
-const responses = {
-  'calcul': 'Sin aplicación en R3, el riesgo de pérdida por roya es de **4-8 qq/ha** según datos INTA para tu zona. A $284 USD/tt eso son **$113-226 USD/ha**. Contra un costo de aplicación de $28-34 USD/ha, la relación costo-beneficio es **1:4 mínimo**. Vale aplicar.',
-  'dosis': 'Opera (epoxiconazole + piraclostrobin): **200 ml/ha en 120 l de agua**. Aplicar en las horas frescas del día, sin rocío y sin viento. Período de carencia: 14 días. Registro SENASA N° 32.241. ¿Lo registro en el cuaderno automáticamente?',
-  'registr': '✅ Registrado en el Cuaderno SENASA:\n\n**Lote Norte · 28/03/2026**\nAplicación fungicida Opera 200ml/ha\nMotivo: riesgo roya R3\nEquipo: autopropulsado\n\nEl registro quedó guardado con firma digital. ¿Agregás algún dato más?',
-  'lote sur': 'Lote Sur — Maíz en VT (floración). Estado: **normal**. Sin alertas activas. Temperatura ideal para el llenado de grano que viene. Próximo monitoreo recomendado en 7 días cuando entre en R2. ¿Querés detalles del pronóstico para los próximos días?',
-  'default': 'Entendido. ¿Querés que lo analice con el contexto del Lote Norte de hoy, o es una consulta general?'
-};
+  <div class="sd-item" style="background:var(--s1);">
+    <div style="background:var(--s2); border:1px solid var(--border); padding:32px; display:flex; flex-direction:column; gap:12px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;">Registro automático por voz</div>
+      <div style="background:rgba(200,160,48,.08); border:1px solid rgba(200,160,48,.2); padding:14px 18px; border-radius:4px;">
+        <div style="font-size:11px; color:var(--gold); margin-bottom:4px; font-family:'Geist Mono',monospace; letter-spacing:1px; text-transform:uppercase;">🎙️ Audio transcripto</div>
+        <div style="font-size:13px; color:var(--cream); font-style:italic;">"Apliqué Opera en el Lote Norte esta mañana, 200ml, con el equipo grande."</div>
+      </div>
+      <div style="font-size:12px; color:var(--green); text-align:center;">↓ Allpa registra automáticamente</div>
+      <div style="background:var(--green-hi); border:1px solid var(--bhi); padding:14px 18px; border-radius:4px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+          <div style="font-size:11px; color:var(--green); font-family:'Geist Mono',monospace; text-transform:uppercase; letter-spacing:1px;">SENASA ✓</div>
+          <div style="font-size:11px; color:var(--muted);">28 MAR · 07:30</div>
+        </div>
+        <div style="font-size:13px; color:var(--cream); font-weight:500; margin-bottom:4px;">Aplicación fungicida — Opera 200ml/ha</div>
+        <div style="font-size:12px; color:var(--fog);">Lote Norte · Soja R3 · 120 ha · JD4940<br>Carencia: 14 días</div>
+      </div>
+    </div>
+    <div class="sd-text">
+      <div class="sd-num">4</div>
+      <div class="sd-tag">📋 Cuaderno · Registros SENASA automáticos</div>
+      <div class="sd-title">El papel que nadie quiere llenar, solo</div>
+      <p class="sd-body">El cuaderno de campo SENASA es obligatorio para vender granos. El cuaderno sanitario RENSPA es obligatorio para mover hacienda. Hoy se llenan a mano o en planillas de Excel que nadie completa. Con Allpa se llenan solos.</p>
+      <ul class="sd-features">
+        <li><strong>Registro por voz</strong> — el productor habla mientras trabaja, sin parar el tractor</li>
+        <li><strong>Tres registros automáticos</strong> — fitosanitarios, sanitario animal y lluvias en tabs separados</li>
+        <li><strong>Firma digital SENASA</strong> — cada registro queda validado y fechado automáticamente</li>
+        <li><strong>Historial exportable</strong> — listo para presentar a cualquier certificadora o acopiador</li>
+      </ul>
+    </div>
+  </div>
 
-function getResponse(msg) {
-  const m = msg.toLowerCase();
-  for (const [key, val] of Object.entries(responses)) {
-    if (key !== 'default' && m.includes(key)) return val;
-  }
-  return responses.default;
-}
+  <div class="sd-item" style="background:var(--s1);">
+    <div class="sd-text">
+      <div class="sd-num">5</div>
+      <div class="sd-tag">🔔 Alertas · El radar que nunca duerme</div>
+      <div class="sd-title">Allpa está mirando cuando vos no podés</div>
+      <p class="sd-body">Mientras el productor duerme, Allpa monitorea el clima, los datos de SENASA, el estado del rodeo y los vencimientos del calendario sanitario. Cuando algo requiere atención, llega la alerta con prioridad clara y acción concreta.</p>
+      <ul class="sd-features">
+        <li><strong>Rojo</strong> — urgente, requiere acción hoy. Roya activa, vaca en emergencia, vacunación vencida.</li>
+        <li><strong>Amarillo</strong> — atención en los próximos días. Parto próximo, vacunación que vence en 2 semanas.</li>
+        <li><strong>Verde</strong> — informativo. Sin alertas activas en la zona, todo en orden.</li>
+        <li><strong>Acceso directo al chat</strong> — cada alerta lleva al productor directo a la consulta con Allpa para resolver.</li>
+      </ul>
+    </div>
+    <div style="background:var(--s2); border:1px solid var(--border); padding:32px; display:flex; flex-direction:column; gap:10px;">
+      <div style="font-family:'Geist Mono',monospace; font-size:10px; letter-spacing:2px; color:var(--muted); text-transform:uppercase;">Alertas activas hoy</div>
+      <div style="background:rgba(200,64,48,.06); border:1px solid rgba(200,64,48,.2); padding:14px 18px; border-radius:4px; display:flex; gap:12px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:var(--red); box-shadow:0 0 8px rgba(200,64,48,.6); flex-shrink:0; margin-top:4px;"></div>
+        <div><div style="font-size:11px; color:var(--muted);">🌱 Lote Norte · Soja R3</div><div style="font-size:14px; color:var(--cream); font-weight:500; margin-top:2px;">Alta presión de roya asiática</div><div style="font-size:12px; color:var(--fog); margin-top:4px;">18mm lluvia + humedad 72% → ventana de infección de 48hs</div></div>
+      </div>
+      <div style="background:rgba(200,160,48,.06); border:1px solid rgba(200,160,48,.2); padding:14px 18px; border-radius:4px; display:flex; gap:12px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0; margin-top:4px;"></div>
+        <div><div style="font-size:11px; color:var(--muted);">🐄 Rodeo · Vaca 147</div><div style="font-size:14px; color:var(--cream); font-weight:500; margin-top:2px;">Parto inminente — próximos 3 días</div><div style="font-size:12px; color:var(--fog); margin-top:4px;">Revisar edema de ubre y relajación de ligamentos</div></div>
+      </div>
+      <div style="background:var(--green-hi); border:1px solid var(--bhi); padding:14px 18px; border-radius:4px; display:flex; gap:12px;">
+        <div style="width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; margin-top:4px;"></div>
+        <div><div style="font-size:11px; color:var(--muted);">SENASA · Zona General Pacheco</div><div style="font-size:14px; color:var(--cream); font-weight:500; margin-top:2px;">Sin alertas sanitarias activas en tu área</div></div>
+      </div>
+    </div>
+  </div>
 
-function sendMsg() {
-  const input = document.getElementById('msgInput');
-  const text = input.value.trim();
-  if (!text) return;
-  addUserMsg(text);
-  input.value = '';
-  input.style.height = 'auto';
-  showTyping();
-  setTimeout(() => {
-    removeTyping();
-    addAllpaMsg(getResponse(text));
-  }, 1200);
-}
+</div>
 
-function addMsg(text) {
-  showTab('chat');
-  setTimeout(() => {
-    addUserMsg(text);
-    showTyping();
-    setTimeout(() => {
-      removeTyping();
-      addAllpaMsg(getResponse(text));
-    }, 1200);
-  }, 100);
-}
+<div class="div-line" style="margin:0 80px;"></div>
 
-function addVoiceMsg() {
-  addMsg('Registrá que hoy a las 7:30 apliqué Opera en el Lote Norte, 200ml, con el equipo grande');
-}
+<!-- ══════════════════════ CLOSING ══════════════════════ -->
+<section class="closing">
+  <div class="closing-glow"></div>
+  <h2 class="closing-title">El campo siempre<br>fue inteligente.<br><em>Ahora lo sabe.</em></h2>
+  <p class="closing-sub">
+    El productor argentino lleva décadas tomando decisiones técnicas complejas solo, entre visitas esporádicas de asesores. <strong>Allpa.ai es el primero en estar siempre ahí.</strong>
+  </p>
 
-function addUserMsg(text) {
-  const scroll = document.getElementById('chatScroll');
-  const div = document.createElement('div');
-  div.className = 'msg user';
-  div.innerHTML = `<div class="bubble user">${text}</div><div class="msg-time">${getTime()}</div>`;
-  scroll.appendChild(div);
-  scroll.scrollTop = scroll.scrollHeight;
-}
+  <div class="closing-grid">
+    <div class="cl-card">
+      <div class="cl-num">Mes 1</div>
+      <div class="cl-title">Probar en el campo propio</div>
+      <div class="cl-body">El fundador tiene su campo en General Pacheco. Cada consulta real es validación del producto y contenido auténtico para mostrar.</div>
+    </div>
+    <div class="cl-card">
+      <div class="cl-num">Mes 3</div>
+      <div class="cl-title">Primeros 50 usuarios pagos</div>
+      <div class="cl-body">Agrónomos y veterinarios como canal de distribución. Un agrónomo que adopta Allpa trae 40 productores. Un veterinario, 60.</div>
+    </div>
+    <div class="cl-card">
+      <div class="cl-num">Mes 12</div>
+      <div class="cl-title">$1.4M ARR · Ronda seed</div>
+      <div class="cl-body">Con tracción demostrada, $300–500K de ángeles del agro argentino. Luego Uruguay, Brasil, Paraguay.</div>
+    </div>
+  </div>
 
-function addAllpaMsg(text) {
-  const scroll = document.getElementById('chatScroll');
-  const div = document.createElement('div');
-  div.className = 'msg allpa';
-  const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g,'<br>');
-  div.innerHTML = `<div class="bubble allpa">${formatted}</div><div class="msg-time">${getTime()}</div>`;
-  scroll.appendChild(div);
-  scroll.scrollTop = scroll.scrollHeight;
-}
+  <div class="closing-tagline">
+    <div class="ct-logo">allpa.ai</div>
+    <div class="ct-phrase">La tierra siempre supo. Ahora habla.</div>
+  </div>
+</section>
 
-function showTyping() {
-  const scroll = document.getElementById('chatScroll');
-  const div = document.createElement('div');
-  div.className = 'msg allpa'; div.id = 'typing';
-  div.innerHTML = `<div class="bubble allpa" style="padding:14px 18px;">
-    <span class="typing-dot"></span>
-    <span class="typing-dot"></span>
-    <span class="typing-dot"></span>
-  </div>`;
-  scroll.appendChild(div);
-  scroll.scrollTop = scroll.scrollHeight;
-}
-
-function removeTyping() {
-  const t = document.getElementById('typing');
-  if(t) t.remove();
-}
-
-function getTime() {
-  const now = new Date();
-  return now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
-}
-
-// ── CUADERNO TABS ──
-function switchTab(el, id) {
-  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  ['fitosanitarios','sanitario','lluvias'].forEach(t => {
-    const el2 = document.getElementById('tab-' + t);
-    if (el2) el2.style.display = t === id ? 'block' : 'none';
-  });
-}
-
-function recordVoice() {
-  const fab = document.getElementById('fabVoice');
-  fab.style.background = 'var(--red)';
-  fab.innerHTML = '⏺️';
-  setTimeout(() => {
-    fab.style.background = 'var(--green)';
-    fab.innerHTML = '🎙️';
-    // go to chat to show the voice registration
-    showTab('chat');
-    addUserMsg('🎙️ [Nota de voz] Registrá que hoy a las 8am apliqué Opera en el Lote Norte');
-    showTyping();
-    setTimeout(() => {
-      removeTyping();
-      addAllpaMsg('✅ **Registrado en Cuaderno SENASA:**\n\nLote Norte · 28/03/2026 · 08:00\nAplicación fungicida: **Opera 200ml/ha**\nSuperficie: 120 ha\nRegistro SENASA activo\n\n¿Agregás el equipo que usaste?');
-    }, 1200);
-  }, 2000);
-}
-</script>
 </body>
 </html>
