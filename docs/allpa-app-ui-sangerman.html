@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Allpa.ai</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300;1,9..144,400&family=Geist:wght@300;400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080B05;
+  --s1: #0C1008;
+  --s2: #111609;
+  --s3: #16200C;
+  --border: rgba(255,255,255,0.06);
+  --bhi: rgba(138,200,64,0.2);
+  --green: #8AC840;
+  --green-d: #5A8A28;
+  --gold: #C8A030;
+  --amber: #E07830;
+  --red: #D04030;
+  --blue: #50AACC;
+  --cream: #E8E0C8;
+  --text: #C0CCA8;
+  --muted: #687858;
+  --fog: #8A9878;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow:hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Geist', sans-serif;
+  font-weight: 300;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ── NOISE TEXTURE ── */
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:999;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ── STATUS BAR ── */
+.status {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.s-time { font-family:'Geist Mono',monospace; font-size:13px; font-weight:500; color:var(--cream); }
+.s-icons { display:flex; align-items:center; gap:6px; }
+.s-icon { width:16px; height:10px; background:var(--cream); border-radius:2px; opacity:.8; }
+
+/* ── TOP NAV ── */
+.topnav {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  background: var(--bg);
+}
+.logo {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--green);
+  letter-spacing: -0.5px;
+}
+.logo span { color: var(--cream); }
+.nav-right { display:flex; align-items:center; gap:12px; }
+.avatar {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--green-d), var(--green));
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  font-family: 'Fraunces', serif;
+  font-size: 13px; font-weight:700; color: var(--bg);
+}
+.notif-dot {
+  width: 8px; height: 8px;
+  background: var(--amber);
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+  margin-top: -20px; margin-left: -10px;
+  position: relative;
+}
+
+/* ── SCROLL CONTENT ── */
+.content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.content::-webkit-scrollbar { display:none; }
+
+/* ── SCREEN (each tab) ── */
+.screen { display:none; }
+.screen.active { display:block; }
+
+/* ── HOME SCREEN ── */
+.home-greeting {
+  padding: 24px 20px 0;
+}
+.greeting-sub {
+  font-family:'Geist Mono',monospace;
+  font-size: 10px; letter-spacing: 2px;
+  color: var(--muted); text-transform:uppercase;
+  margin-bottom: 4px;
+}
+.greeting-main {
+  font-family: 'Fraunces', serif;
+  font-size: 26px; font-weight:700;
+  color: var(--cream); line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.greeting-main em { font-style:italic; font-weight:300; color:var(--green); }
+
+/* PULSO CARD */
+.pulso-card {
+  margin: 20px 20px 0;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.pulso-header {
+  padding: 14px 18px;
+  display: flex; justify-content:space-between; align-items:center;
+  border-bottom: 1px solid var(--border);
+}
+.pulso-title {
+  font-family:'Geist Mono',monospace;
+  font-size: 9px; letter-spacing:3px;
+  color: var(--muted); text-transform:uppercase;
+}
+.pulso-date { font-size:11px; color:var(--muted); }
+
+.weather-row {
+  padding: 16px 18px;
+  display:grid; grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 8px; border-bottom: 1px solid var(--border);
+}
+.weather-item { text-align:center; }
+.w-icon { font-size: 20px; line-height:1; margin-bottom:4px; }
+.w-val { font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--cream); }
+.w-label { font-size:9px; color:var(--muted); margin-top:1px; }
+
+.price-row {
+  padding: 12px 18px;
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+.price-item { }
+.p-crop { font-size:10px; color:var(--muted); margin-bottom:2px; }
+.p-val { font-family:'Fraunces',serif; font-size:17px; font-weight:700; color:var(--cream); }
+.p-change { font-size:10px; margin-top:1px; }
+.up { color: var(--green); }
+.dn { color: var(--red); }
+
+/* ALERTAS */
+.section-label {
+  padding: 20px 20px 10px;
+  font-family:'Geist Mono',monospace;
+  font-size: 9px; letter-spacing:3px;
+  color: var(--muted); text-transform:uppercase;
+  display: flex; justify-content:space-between; align-items:center;
+}
+.see-all { font-size:10px; color:var(--green); letter-spacing:0; font-family:'Geist',sans-serif; }
+
+.alert-card {
+  margin: 0 20px 8px;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex; gap:12px; align-items:flex-start;
+  cursor: pointer; transition: background .15s;
+}
+.alert-card:active { background: var(--s3); }
+.alert-dot {
+  width: 8px; height:8px; border-radius:50%;
+  flex-shrink:0; margin-top:5px;
+}
+.ad-red { background:var(--red); box-shadow:0 0 8px rgba(208,64,48,.5); }
+.ad-amber { background:var(--amber); box-shadow:0 0 8px rgba(224,120,48,.4); }
+.ad-green { background:var(--green); }
+.alert-body { flex:1; }
+.alert-tag {
+  font-family:'Geist Mono',monospace;
+  font-size:8px; letter-spacing:2px;
+  color: var(--muted); text-transform:uppercase;
+  margin-bottom:3px;
+}
+.alert-title { font-size:13.5px; color:var(--cream); font-weight:500; line-height:1.3; }
+.alert-sub { font-size:11.5px; color:var(--muted); margin-top:3px; }
+.alert-time { font-size:10px; color:var(--muted); flex-shrink:0; margin-top:2px; }
+
+/* LOTES RÁPIDOS */
+.lote-scroll {
+  padding: 0 20px;
+  display: flex; gap:10px;
+  overflow-x: auto; scrollbar-width:none;
+  padding-bottom: 4px;
+}
+.lote-scroll::-webkit-scrollbar { display:none; }
+.lote-mini {
+  flex-shrink:0;
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius:12px;
+  padding: 12px 16px;
+  width: 140px;
+  cursor:pointer; transition: border-color .15s;
+}
+.lote-mini:active { border-color: var(--bhi); }
+.lm-name { font-family:'Fraunces',serif; font-size:14px; font-weight:700; color:var(--cream); margin-bottom:2px; }
+.lm-crop { font-size:11px; color:var(--muted); }
+.lm-stage {
+  margin-top:8px; padding:3px 8px;
+  background:rgba(138,200,64,.1);
+  border:1px solid rgba(138,200,64,.2);
+  border-radius:20px;
+  font-size:9px; color:var(--green);
+  font-family:'Geist Mono',monospace; letter-spacing:1px;
+  display:inline-block;
+}
+.lm-stage.amber { background:rgba(200,160,48,.1); border-color:rgba(200,160,48,.2); color:var(--gold); }
+
+/* ACCESOS RÁPIDOS */
+.quick-grid {
+  margin: 0 20px;
+  display: grid; grid-template-columns:1fr 1fr;
+  gap: 8px;
+}
+.quick-btn {
+  background: var(--s2);
+  border: 1px solid var(--border);
+  border-radius:12px;
+  padding: 16px;
+  cursor:pointer; transition:background .15s;
+  display:flex; flex-direction:column; gap:8px;
+}
+.quick-btn:active { background:var(--s3); }
+.qb-icon { font-size:22px; }
+.qb-label { font-size:12px; color:var(--cream); font-weight:500; }
+.qb-sub { font-size:10px; color:var(--muted); }
+
+/* ── CAMPO SCREEN ── */
+.campo-hero {
+  background: linear-gradient(180deg, rgba(138,200,64,0.08) 0%, transparent 100%);
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.campo-name {
+  font-family:'Fraunces',serif;
+  font-size:28px; font-weight:700;
+  color:var(--cream); letter-spacing:-1px;
+  margin-bottom:4px;
+}
+.campo-location {
+  font-size:12px; color:var(--muted);
+  display:flex; align-items:center; gap:6px;
+}
+.campo-location::before { content:'📍'; font-size:12px; }
+
+.campo-stats {
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:1px; margin-top:16px;
+}
+.cstat {
+  background:var(--s2);
+  padding:14px 12px;
+  text-align:center;
+}
+.cstat:first-child { border-radius:10px 0 0 10px; }
+.cstat:last-child { border-radius:0 10px 10px 0; }
+.cs-val { font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); }
+.cs-label { font-size:9px; color:var(--muted); margin-top:3px; font-family:'Geist Mono',monospace; letter-spacing:1px; text-transform:uppercase; }
+
+/* LOTES LIST */
+.lote-item {
+  margin: 0 20px 8px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+}
+.lote-header {
+  padding:14px 16px;
+  display:flex; justify-content:space-between; align-items:flex-start;
+}
+.lote-info {}
+.l-name { font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--cream); }
+.l-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.l-badge {
+  font-family:'Geist Mono',monospace;
+  font-size:9px; letter-spacing:1px;
+  padding:4px 10px; border-radius:20px;
+}
+.lb-ok { background:rgba(138,200,64,.1); border:1px solid rgba(138,200,64,.2); color:var(--green); }
+.lb-warn { background:rgba(224,120,48,.1); border:1px solid rgba(224,120,48,.2); color:var(--amber); }
+.lb-alert { background:rgba(208,64,48,.1); border:1px solid rgba(208,64,48,.25); color:var(--red); }
+
+.lote-progress {
+  padding:0 16px 14px;
+}
+.prog-label { font-size:10px; color:var(--muted); margin-bottom:6px; }
+.prog-bar { height:4px; background:rgba(255,255,255,.06); border-radius:2px; }
+.prog-fill { height:100%; border-radius:2px; background:linear-gradient(90deg,var(--green-d),var(--green)); }
+
+.lote-data {
+  padding:10px 16px;
+  border-top:1px solid var(--border);
+  display:grid; grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+}
+.ld-item { text-align:center; }
+.ld-val { font-family:'Fraunces',serif; font-size:14px; font-weight:700; color:var(--cream); }
+.ld-key { font-size:9px; color:var(--muted); margin-top:2px; }
+
+/* RODEO */
+.rodeo-summary {
+  margin: 0 20px 16px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+.rs-header {
+  padding:14px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex; justify-content:space-between;
+}
+.rs-title { font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--cream); }
+.rs-total { font-size:11px; color:var(--muted); display:flex; align-items:center; gap:4px; }
+.rs-total strong { color:var(--cream); font-size:14px; }
+.rs-cats {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1px;
+}
+.rs-cat {
+  padding:12px 16px;
+  border-top:1px solid var(--border);
+}
+.rc-label { font-size:10px; color:var(--muted); margin-bottom:4px; }
+.rc-val { font-family:'Fraunces',serif; font-size:20px; font-weight:700; color:var(--cream); }
+.rc-note { font-size:9px; color:var(--green); margin-top:2px; }
+
+/* SANITARIO CARD */
+.san-item {
+  margin:0 20px 8px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+  display:flex; gap:12px; align-items:center;
+}
+.san-icon { font-size:24px; flex-shrink:0; }
+.san-info { flex:1; }
+.si-title { font-size:13px; color:var(--cream); font-weight:500; }
+.si-sub { font-size:11px; color:var(--muted); margin-top:2px; }
+.si-date {
+  font-family:'Geist Mono',monospace;
+  font-size:10px; color:var(--gold);
+  margin-top:4px;
+}
+.san-status {
+  width:8px; height:8px; border-radius:50%; flex-shrink:0;
+}
+
+/* ── CHAT SCREEN ── */
+.chat-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; gap:12px;
+}
+.allpa-avatar {
+  width:36px; height:36px;
+  background:linear-gradient(135deg,var(--green-d),var(--green));
+  border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Fraunces',serif; font-size:16px; font-weight:700; color:var(--bg);
+}
+.allpa-info {}
+.allpa-name { font-family:'Fraunces',serif; font-size:15px; font-weight:700; color:var(--cream); }
+.allpa-status { font-size:10px; color:var(--green); display:flex; align-items:center; gap:4px; }
+.allpa-status::before { content:''; width:5px; height:5px; background:var(--green); border-radius:50%; display:inline-block; }
+
+.chat-messages {
+  flex:1; padding:16px 16px 0;
+  display:flex; flex-direction:column; gap:12px;
+}
+
+.msg { display:flex; flex-direction:column; gap:4px; }
+.msg.user { align-items:flex-end; }
+.msg.allpa { align-items:flex-start; }
+
+.bubble {
+  max-width:85%; padding:12px 14px;
+  border-radius:16px; font-size:13.5px; line-height:1.55;
+}
+.bubble.user {
+  background:var(--green);
+  color:var(--bg); border-radius:16px 16px 4px 16px;
+  font-weight:500;
+}
+.bubble.allpa {
+  background:var(--s2);
+  border:1px solid var(--border);
+  color:var(--cream);
+  border-radius:16px 16px 16px 4px;
+}
+.bubble.allpa strong { color:var(--green); font-weight:500; }
+.bubble.allpa .cert {
+  display:inline-block;
+  background:rgba(138,200,64,.15);
+  border:1px solid rgba(138,200,64,.25);
+  border-radius:20px;
+  padding:2px 8px;
+  font-family:'Geist Mono',monospace;
+  font-size:10px; color:var(--green);
+  margin-bottom:6px;
+}
+
+.msg-time { font-size:10px; color:var(--muted); padding:0 4px; }
+
+.chat-chips {
+  padding:12px 16px;
+  display:flex; gap:8px; overflow-x:auto; scrollbar-width:none;
+}
+.chat-chips::-webkit-scrollbar { display:none; }
+.chip {
+  flex-shrink:0;
+  padding:8px 14px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  font-size:12px; color:var(--fog);
+  cursor:pointer; transition:border-color .15s;
+  white-space:nowrap;
+}
+.chip:active { border-color:var(--bhi); color:var(--green); }
+
+.chat-input-area {
+  padding:12px 16px 20px;
+  border-top:1px solid var(--border);
+  display:flex; gap:10px; align-items:flex-end;
+}
+.input-box {
+  flex:1;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:10px 16px;
+  font-size:13px; color:var(--cream);
+  font-family:'Geist',sans-serif;
+  outline:none; resize:none;
+  min-height:42px; max-height:100px;
+  line-height:1.4;
+}
+.input-box::placeholder { color:var(--muted); }
+.input-box:focus { border-color:rgba(138,200,64,.3); }
+.send-btn {
+  width:42px; height:42px;
+  background:var(--green);
+  border-radius:50%; border:none;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0;
+  transition:transform .1s;
+}
+.send-btn:active { transform:scale(.92); }
+.voice-btn {
+  width:42px; height:42px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:50%; border:none;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0; color:var(--muted);
+  border:1px solid var(--border);
+}
+
+/* ── CUADERNO SCREEN ── */
+.cuaderno-tabs {
+  padding:0 20px;
+  display:flex; gap:4px; margin-bottom:16px;
+  border-bottom:1px solid var(--border);
+  padding-bottom:0;
+}
+.ctab {
+  padding:12px 16px;
+  font-size:12px; font-weight:500;
+  cursor:pointer; color:var(--muted);
+  border-bottom:2px solid transparent;
+  transition:all .15s;
+  white-space:nowrap;
+}
+.ctab.active { color:var(--green); border-bottom-color:var(--green); }
+
+.registro-item {
+  margin:0 20px 8px;
+  background:var(--s2);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+}
+.ri-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+.ri-date { font-family:'Geist Mono',monospace; font-size:10px; color:var(--muted); }
+.ri-lote { font-size:11px; color:var(--green); }
+.ri-title { font-size:13.5px; color:var(--cream); font-weight:500; margin-bottom:4px; }
+.ri-detail { font-size:11.5px; color:var(--muted); line-height:1.5; }
+.ri-tags { margin-top:8px; display:flex; gap:6px; flex-wrap:wrap; }
+.ri-tag {
+  font-family:'Geist Mono',monospace;
+  font-size:8px; letter-spacing:1px;
+  padding:3px 8px; border-radius:20px;
+  color:var(--muted); border:1px solid var(--border);
+}
+.ri-tag.senasa { color:var(--gold); border-color:rgba(200,160,48,.25); }
+
+.fab-voice {
+  position:fixed;
+  bottom:90px; right:20px;
+  width:52px; height:52px;
+  background:var(--green);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:22px;
+  box-shadow:0 4px 20px rgba(138,200,64,.3);
+  cursor:pointer; z-index:10;
+  transition:transform .15s;
+}
+.fab-voice:active { transform:scale(.92); }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  height: 72px;
+  display: flex;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  flex-shrink: 0;
+  padding-bottom: 8px;
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: color .15s;
+  color: var(--muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-item.active { color: var(--green); }
+.nav-icon { font-size: 22px; line-height:1; }
+.nav-label { font-size: 9px; font-family:'Geist Mono',monospace; letter-spacing:1px; text-transform:uppercase; }
+
+/* ── MISC ── */
+.divider { height:1px; background:var(--border); margin:4px 0; }
+.tag-line {
+  padding:12px 20px 20px;
+  font-family:'Fraunces',serif;
+  font-style:italic;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.section-pad { padding-top:20px; }
+
+/* BADGE */
+.badge {
+  background:var(--red);
+  color:white;
+  font-family:'Geist Mono',monospace;
+  font-size:8px;
+  padding:2px 5px;
+  border-radius:10px;
+  min-width:16px;
+  text-align:center;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(6px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.screen.active { animation: fadeIn .2s ease; }
+
+/* Typing indicator */
+@keyframes blink {
+  0%,80%,100% { opacity:0.2; }
+  40% { opacity:1; }
+}
+.typing-dot {
+  display:inline-block;
+  width:6px; height:6px;
+  background:var(--green);
+  border-radius:50%;
+  animation:blink 1.4s infinite;
+}
+.typing-dot:nth-child(2) { animation-delay:.2s; }
+.typing-dot:nth-child(3) { animation-delay:.4s; }
+
+/* scrollable chat area */
+.chat-scroll {
+  flex:1; overflow-y:auto; scrollbar-width:none;
+  padding:16px 16px 8px;
+  display:flex; flex-direction:column; gap:12px;
+}
+.chat-scroll::-webkit-scrollbar { display:none; }
+
+.screen.chat-screen {
+  display:none;
+  flex-direction:column;
+  height:calc(100vh - 44px - 56px - 72px);
+}
+.screen.chat-screen.active { display:flex; }
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status">
+  <div class="s-time">9:41</div>
+  <div class="s-icons">
+    <svg width="16" height="11" viewBox="0 0 16 11" fill="none"><rect x="0" y="3" width="3" height="8" rx="1" fill="white" opacity=".4"/><rect x="4.5" y="2" width="3" height="9" rx="1" fill="white" opacity=".6"/><rect x="9" y="0" width="3" height="11" rx="1" fill="white" opacity=".8"/><rect x="13.5" y="0" width="2.5" height="11" rx="1" fill="white"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="white"><path d="M8 1.5C5.1 1.5 2.5 2.7 0.8 4.7L0 3.7C2 1.4 4.8 0 8 0s6 1.4 8 3.7l-.8 1C13.5 2.7 10.9 1.5 8 1.5z" opacity=".4"/><path d="M8 4C6 4 4.2 4.8 2.9 6.1L2 5.1C3.5 3.5 5.6 2.5 8 2.5s4.5 1 6 2.6l-.9 1C11.8 4.8 10 4 8 4z" opacity=".7"/><path d="M8 6.5C7 6.5 6 6.9 5.3 7.6l-1-1C5.3 5.6 6.6 5 8 5s2.7.6 3.7 1.6l-1 1C10 6.9 9 6.5 8 6.5z"/><circle cx="8" cy="10" r="1.5"/></svg>
+    <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="white" stroke-opacity=".35"/><rect x="2" y="2" width="17" height="8" rx="2" fill="white"/><path d="M23.5 4.5v3a2.5 2.5 0 000-3z" fill="white" opacity=".4"/></svg>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="logo">allpa<span>.ai</span></div>
+  <div class="nav-right">
+    <div style="position:relative; cursor:pointer;">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" onclick="showTab('alertas')">
+        <path d="M11 2C7.7 2 5 4.7 5 8v5l-1.5 2.5h15L17 13V8c0-3.3-2.7-6-6-6z" stroke="#687858" stroke-width="1.5" fill="none"/>
+        <path d="M9 18c0 1.1.9 2 2 2s2-.9 2-2" stroke="#687858" stroke-width="1.5" fill="none"/>
+      </svg>
+      <div class="notif-dot"></div>
+    </div>
+    <div class="avatar" onclick="showTab('perfil')">S</div>
+  </div>
+</div>
+
+<!-- SCROLLABLE CONTENT -->
+<div class="content">
+
+  <!-- ═══ HOME ═══ -->
+  <div class="screen active" id="screen-home">
+    <div class="home-greeting">
+      <div class="greeting-sub">Viernes · 28 de marzo · 2026</div>
+      <div class="greeting-main">Buenos días,<br><em>Santiago.</em></div>
+    </div>
+
+    <!-- PULSO DEL DÍA -->
+    <div class="pulso-card">
+      <div class="pulso-header">
+        <div class="pulso-title">Pulso del campo</div>
+        <div class="pulso-date">Zárate</div>
+      </div>
+      <div class="weather-row">
+        <div class="weather-item">
+          <div class="w-icon">🌡️</div>
+          <div class="w-val">24°</div>
+          <div class="w-label">Máx hoy</div>
+        </div>
+        <div class="weather-item">
+          <div class="w-icon">💧</div>
+          <div class="w-val">72%</div>
+          <div class="w-label">Humedad</div>
+        </div>
+        <div class="weather-item">
+          <div class="w-icon">🌧️</div>
+          <div class="w-val">18mm</div>
+          <div class="w-label">Ayer</div>
+        </div>
+        <div class="weather-item">
+          <div class="w-icon">🌤️</div>
+          <div class="w-val">3 días</div>
+          <div class="w-label">Sin lluvia</div>
+        </div>
+      </div>
+      <div class="price-row">
+        <div class="price-item">
+          <div class="p-crop">Soja</div>
+          <div class="p-val">$284</div>
+          <div class="p-change up">▲ +2.1%</div>
+        </div>
+        <div class="price-item">
+          <div class="p-crop">Maíz</div>
+          <div class="p-val">$172</div>
+          <div class="p-change dn">▼ -0.8%</div>
+        </div>
+        <div class="price-item">
+          <div class="p-crop">Trigo</div>
+          <div class="p-val">$196</div>
+          <div class="p-change up">▲ +1.2%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTAS -->
+    <div class="section-label">
+      <span>Alertas activas</span>
+      <span class="see-all" onclick="showTab('alertas')">Ver todas</span>
+    </div>
+
+    <div class="alert-card" onclick="showTab('chat')">
+      <div class="alert-dot ad-red"></div>
+      <div class="alert-body">
+        <div class="alert-tag">Lote Norte · Soja R3</div>
+        <div class="alert-title">Alta presión de roya. Condiciones ideales hoy.</div>
+        <div class="alert-sub">Humedad + templado post-lluvia = ventana de infección</div>
+      </div>
+      <div class="alert-time">Hace 1h</div>
+    </div>
+
+    <div class="alert-card">
+      <div class="alert-dot ad-amber"></div>
+      <div class="alert-body">
+        <div class="alert-tag">Rodeo · Vaca 147</div>
+        <div class="alert-title">Parto esperado en los próximos 3 días.</div>
+        <div class="alert-sub">Revisar signos: edema de ubre, ligamentos</div>
+      </div>
+      <div class="alert-time">Hoy</div>
+    </div>
+
+    <div class="alert-card">
+      <div class="alert-dot ad-green"></div>
+      <div class="alert-body">
+        <div class="alert-tag">SENASA · Zona</div>
+        <div class="alert-title">Sin alertas sanitarias activas en tu partido.</div>
+        <div class="alert-sub">Última verificación hace 2 horas</div>
+      </div>
+      <div class="alert-time">8:02</div>
+    </div>
+
+    <!-- LOTES RÁPIDOS -->
+    <div class="section-label">
+      <span>Tus lotes</span>
+      <span class="see-all" onclick="showTab('campo')">Ver campo</span>
+    </div>
+    <div class="lote-scroll">
+      <div class="lote-mini" onclick="showTab('campo')">
+        <div class="lm-name">Lote Norte</div>
+        <div class="lm-crop">Soja · 30 ha</div>
+        <div class="lm-stage">R3 — Plenilunio</div>
+      </div>
+      <div class="lote-mini" onclick="showTab('campo')">
+        <div class="lm-name">Lote Sur</div>
+        <div class="lm-crop">Maíz · 20 ha</div>
+        <div class="lm-stage amber">VT — Floración</div>
+      </div>
+      <div class="lote-mini" onclick="showTab('campo')">
+        <div class="lm-name">Potrero 1</div>
+        <div class="lm-crop">Pastura · 45 ha</div>
+        <div class="lm-stage">Rotación</div>
+      </div>
+    </div>
+
+    <!-- ACCESOS RÁPIDOS -->
+    <div class="section-label"><span>Acceso rápido</span></div>
+    <div class="quick-grid">
+      <div class="quick-btn" onclick="showTab('chat')">
+        <div class="qb-icon">💬</div>
+        <div class="qb-label">Consultarle a Allpa</div>
+        <div class="qb-sub">IA disponible 24/7</div>
+      </div>
+      <div class="quick-btn" onclick="showTab('cuaderno')">
+        <div class="qb-icon">📋</div>
+        <div class="qb-label">Cuaderno SENASA</div>
+        <div class="qb-sub">Registrar por voz</div>
+      </div>
+      <div class="quick-btn" onclick="showTab('campo')">
+        <div class="qb-icon">🐄</div>
+        <div class="qb-label">Parte del rodeo</div>
+        <div class="qb-sub">35 cabezas activas</div>
+      </div>
+      <div class="quick-btn" onclick="showTab('chat')">
+        <div class="qb-icon">📸</div>
+        <div class="qb-label">Foto + diagnóstico</div>
+        <div class="qb-sub">Subí la foto al chat</div>
+      </div>
+    </div>
+
+    <div class="tag-line">La tierra siempre supo. Ahora habla.</div>
+  </div>
+
+  <!-- ═══ CAMPO ═══ -->
+  <div class="screen" id="screen-campo">
+    <div class="campo-hero">
+      <div class="campo-name">Est. San Germán</div>
+      <div class="campo-location">Zárate, Buenos Aires · 34°08'01.8"S 59°11'40.2"W</div>
+      <div class="campo-stats">
+        <div class="cstat">
+          <div class="cs-val">50</div>
+          <div class="cs-label">Hectáreas</div>
+        </div>
+        <div class="cstat">
+          <div class="cs-val">35</div>
+          <div class="cs-label">Cabezas</div>
+        </div>
+        <div class="cstat">
+          <div class="cs-val">3</div>
+          <div class="cs-label">Alertas</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CULTIVOS -->
+    <div class="section-label section-pad"><span>Cultivos activos</span></div>
+
+    <div class="lote-item">
+      <div class="lote-header">
+        <div class="lote-info">
+          <div class="l-name">Lote Norte</div>
+          <div class="l-sub">Soja · 30 ha · Sembrado 15 nov</div>
+        </div>
+        <div class="l-badge lb-alert">⚠ Alerta</div>
+      </div>
+      <div class="lote-progress">
+        <div class="prog-label">Ciclo: R3 de R8 (Plenilunio) — 62% del ciclo</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:62%"></div></div>
+      </div>
+      <div class="lote-data">
+        <div class="ld-item"><div class="ld-val">28°</div><div class="ld-key">Temp. hoy</div></div>
+        <div class="ld-item"><div class="ld-val">18mm</div><div class="ld-key">Lluvia ayer</div></div>
+        <div class="ld-item"><div class="ld-val">Roya</div><div class="ld-key">Alerta</div></div>
+      </div>
+    </div>
+
+    <div class="lote-item">
+      <div class="lote-header">
+        <div class="lote-info">
+          <div class="l-name">Lote Sur</div>
+          <div class="l-sub">Maíz · 20 ha · Sembrado 20 oct</div>
+        </div>
+        <div class="l-badge lb-warn">Monitorear</div>
+      </div>
+      <div class="lote-progress">
+        <div class="prog-label">Ciclo: VT (Floración) — 75% del ciclo</div>
+        <div class="prog-bar"><div class="prog-fill" style="width:75%"></div></div>
+      </div>
+      <div class="lote-data">
+        <div class="ld-item"><div class="ld-val">VT</div><div class="ld-key">Etapa</div></div>
+        <div class="ld-item"><div class="ld-val">Normal</div><div class="ld-key">Estado</div></div>
+        <div class="ld-item"><div class="ld-val">12 días</div><div class="ld-key">A cosecha</div></div>
+      </div>
+    </div>
+
+    <!-- RODEO -->
+    <div class="section-label"><span>Rodeo bovino</span></div>
+
+    <div class="rodeo-summary">
+      <div class="rs-header">
+        <div class="rs-title">Vacas de cría</div>
+        <div class="rs-total"><strong>35</strong> cabezas totales</div>
+      </div>
+      <div class="rs-cats">
+        <div class="rs-cat">
+          <div class="rc-label">Vacas de cría</div>
+          <div class="rc-val">2</div>
+          <div class="rc-note">3 próximas a parir</div>
+        </div>
+        <div class="rs-cat">
+          <div class="rc-label">Terneros</div>
+          <div class="rc-val">10</div>
+          <div class="rc-note">Temporada actual</div>
+        </div>
+        <div class="rs-cat">
+          <div class="rc-label">Novillada</div>
+          <div class="rc-val">5</div>
+          <div class="rc-note">Invernada</div>
+        </div>
+        <div class="rs-cat">
+          <div class="rc-label">Toros</div>
+          <div class="rc-val">2</div>
+          <div class="rc-note">Servicio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SANITARIO -->
+    <div class="section-label"><span>Calendario sanitario</span></div>
+
+    <div class="san-item">
+      <div class="san-icon">💉</div>
+      <div class="san-info">
+        <div class="si-title">Brucelosis — Vaquillonas</div>
+        <div class="si-sub">5 animales · Obligatorio SENASA</div>
+        <div class="si-date">⏰ Vence en 12 días — 9 de abril</div>
+      </div>
+      <div class="san-status" style="background:var(--gold)"></div>
+    </div>
+
+    <div class="san-item">
+      <div class="san-icon">🩺</div>
+      <div class="san-info">
+        <div class="si-title">Fiebre aftosa — Rodeo completo</div>
+        <div class="si-sub">35 cabezas · Vacunación biestacional</div>
+        <div class="si-date">✅ Realizada el 15 de marzo</div>
+      </div>
+      <div class="san-status" style="background:var(--green)"></div>
+    </div>
+
+    <div class="san-item">
+      <div class="san-icon">🐛</div>
+      <div class="san-info">
+        <div class="si-title">Desparasitación — Categorías jóvenes</div>
+        <div class="si-sub">110 animales · Ivermectina 1%</div>
+        <div class="si-date">📅 Programada para 15 de abril</div>
+      </div>
+      <div class="san-status" style="background:var(--muted)"></div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </div>
+
+  <!-- ═══ CHAT ═══ -->
+  <div class="screen chat-screen" id="screen-chat">
+    <div class="chat-header">
+      <div class="allpa-avatar">A</div>
+      <div class="allpa-info">
+        <div class="allpa-name">Allpa</div>
+        <div class="allpa-status">Online · Est. San Germán activo</div>
+      </div>
+    </div>
+
+    <div class="chat-scroll" id="chatScroll">
+      <!-- contexto automático -->
+      <div style="text-align:center; padding:4px 0;">
+        <span style="font-family:'Geist Mono',monospace; font-size:9px; color:var(--muted); background:var(--s2); border:1px solid var(--border); padding:4px 12px; border-radius:20px; letter-spacing:1px;">
+          CAMPO EL OMBÚ · 28 MAR · 9:41
+        </span>
+      </div>
+
+      <div class="msg allpa">
+        <div class="bubble allpa">
+          Buenos días, Santi. Ya vi que llovieron <strong>18mm ayer</strong> en el Lote Norte y la humedad sigue alta. Con la soja en R3, las condiciones de hoy son de <strong>alto riesgo para roya asiática</strong>. Te mando la alerta antes de que salgas al campo.
+        </div>
+        <div class="msg-time">9:02</div>
+      </div>
+
+      <div class="msg user">
+        <div class="bubble user">Si, vi la alerta. Qué me recomendás hacer hoy?</div>
+        <div class="msg-time">9:38</div>
+      </div>
+
+      <div class="msg allpa">
+        <div class="bubble allpa">
+          <span class="cert">87% certeza · Roya asiática</span><br>
+          Dado el clima de los últimos 3 días y la etapa R3, el riesgo es <strong>real y urgente</strong>. Recomiendo:<br><br>
+          <strong>1.</strong> Salir a monitorear el Lote Norte hoy a la mañana, antes del calor<br>
+          <strong>2.</strong> Revisar el tercio inferior de las plantas — primeras pústulas aparecen abajo<br>
+          <strong>3.</strong> Si confirmás lesiones, aplicar con <strong>Opera 200ml/ha</strong> o <strong>Fox Xpro 400ml/ha</strong><br><br>
+          Costo estimado: <strong>$28–34 USD/ha</strong>. Con 30ha sería ~$900 USD. Una aplicación a tiempo puede salvar 4–6 qq/ha.<br><br>
+          ¿Querés que calcule el margen exacto?
+        </div>
+        <div class="msg-time">9:39</div>
+      </div>
+    </div>
+
+    <!-- SUGERENCIAS -->
+    <div class="chat-chips">
+      <div class="chip" onclick="addMsg('Calculá el margen si no aplico')">📊 Calcular margen si no aplico</div>
+      <div class="chip" onclick="addMsg('Qué dosis exacta de Opera?')">💊 Dosis exacta de Opera</div>
+      <div class="chip" onclick="addMsg('Registrar aplicación en cuaderno')">📋 Registrar en cuaderno</div>
+      <div class="chip" onclick="addMsg('Estado del Lote Sur')">🌽 Estado Lote Sur</div>
+    </div>
+
+    <div class="chat-input-area">
+      <button class="voice-btn" onclick="addVoiceMsg()">🎙️</button>
+      <textarea class="input-box" id="msgInput" placeholder="Preguntale a Allpa..." rows="1" oninput="autoResize(this)" onkeydown="handleKey(event)"></textarea>
+      <button class="send-btn" onclick="sendMsg()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M1 9L17 1L9 17L8 10L1 9Z" fill="#080B05" stroke="#080B05" stroke-width="1.5" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══ CUADERNO ═══ -->
+  <div class="screen" id="screen-cuaderno">
+    <div style="padding:20px 20px 0;">
+      <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); letter-spacing:-0.5px;">Cuaderno de campo</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">Registros automáticos SENASA</div>
+    </div>
+
+    <div class="cuaderno-tabs">
+      <div class="ctab active" onclick="switchTab(this,'fitosanitarios')">Fitosanitarios</div>
+      <div class="ctab" onclick="switchTab(this,'sanitario')">Sanitario</div>
+      <div class="ctab" onclick="switchTab(this,'lluvias')">Lluvias</div>
+    </div>
+
+    <div id="tab-fitosanitarios">
+      <div class="registro-item">
+        <div class="ri-top">
+          <div class="ri-date">28 MAR 2026 · 07:30</div>
+          <div class="ri-lote">Lote Norte</div>
+        </div>
+        <div class="ri-title">Aplicación fungicida — Opera 200ml/ha</div>
+        <div class="ri-detail">30 ha · Soja R3 · Equipo autopropulsado · Temperatura 18°C · Sin viento</div>
+        <div class="ri-tags">
+          <div class="ri-tag senasa">SENASA ✓</div>
+          <div class="ri-tag">Carencia: 14 días</div>
+          <div class="ri-tag">Voz</div>
+        </div>
+      </div>
+
+      <div class="registro-item">
+        <div class="ri-top">
+          <div class="ri-date">22 MAR 2026 · 09:15</div>
+          <div class="ri-lote">Lote Sur</div>
+        </div>
+        <div class="ri-title">Aplicación herbicida — Glifosato 3l/ha + Atrazina 1l/ha</div>
+        <div class="ri-detail">20 ha · Maíz VT · Control de malezas gramíneas y latifoliadas</div>
+        <div class="ri-tags">
+          <div class="ri-tag senasa">SENASA ✓</div>
+          <div class="ri-tag">Carencia: 21 días</div>
+        </div>
+      </div>
+
+      <div class="registro-item">
+        <div class="ri-top">
+          <div class="ri-date">15 MAR 2026 · 08:00</div>
+          <div class="ri-lote">Lote Norte</div>
+        </div>
+        <div class="ri-title">Aplicación insecticida — Karate 100ml/ha</div>
+        <div class="ri-detail">30 ha · Soja R1 · Control de defoliadores · Superó umbral INTA</div>
+        <div class="ri-tags">
+          <div class="ri-tag senasa">SENASA ✓</div>
+          <div class="ri-tag">Lote cerrado 7 días</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-sanitario" style="display:none;">
+      <div class="registro-item">
+        <div class="ri-top">
+          <div class="ri-date">15 MAR 2026</div>
+          <div class="ri-lote">Rodeo completo</div>
+        </div>
+        <div class="ri-title">Vacunación fiebre aftosa — 35 animales</div>
+        <div class="ri-detail">Producto: Aftovac 20 · Dosis: 2ml/animal · Veterinario: Dr. González · RENSPA: 06-001-23456</div>
+        <div class="ri-tags">
+          <div class="ri-tag senasa">SENASA ✓</div>
+          <div class="ri-tag">RENSPA ✓</div>
+          <div class="ri-tag">Obligatorio</div>
+        </div>
+      </div>
+      <div class="registro-item">
+        <div class="ri-top">
+          <div class="ri-date">20 FEB 2026</div>
+          <div class="ri-lote">Vaca 147</div>
+        </div>
+        <div class="ri-title">Tratamiento hipocalcemia puerperal</div>
+        <div class="ri-detail">Gluconato de calcio 500ml IV · Recuperación completa en 3h · Post-parto día 8</div>
+        <div class="ri-tags">
+          <div class="ri-tag">RENSPA ✓</div>
+          <div class="ri-tag">Voz</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-lluvias" style="display:none;">
+      <div class="registro-item">
+        <div class="ri-top"><div class="ri-date">27 MAR · Ayer</div><div class="ri-lote">Campo completo</div></div>
+        <div class="ri-title">Lluvia: 18mm</div>
+        <div class="ri-detail">Duración 2.5h · Sin granizo · Suelo en buenas condiciones</div>
+        <div class="ri-tags"><div class="ri-tag">Automático</div></div>
+      </div>
+      <div class="registro-item">
+        <div class="ri-top"><div class="ri-date">21 MAR</div><div class="ri-lote">Campo completo</div></div>
+        <div class="ri-title">Lluvia: 6mm</div>
+        <div class="ri-detail">Duración 45min · Llovizna intermitente</div>
+        <div class="ri-tags"><div class="ri-tag">Automático</div></div>
+      </div>
+    </div>
+
+    <!-- FAB -->
+    <div class="fab-voice" id="fabVoice" onclick="recordVoice()" title="Registrar por voz">🎙️</div>
+
+    <div style="height:80px;"></div>
+  </div>
+
+  <!-- ═══ ALERTAS ═══ -->
+  <div class="screen" id="screen-alertas">
+    <div style="padding:20px 20px 0;">
+      <div style="font-family:'Fraunces',serif; font-size:22px; font-weight:700; color:var(--cream); letter-spacing:-0.5px;">Alertas</div>
+      <div style="font-size:12px; color:var(--muted); margin-top:4px;">3 activas · 2 resueltas</div>
+    </div>
+
+    <div class="section-label section-pad"><span>Activas</span></div>
+
+    <div class="alert-card" onclick="showTab('chat')">
+      <div class="alert-dot ad-red"></div>
+      <div class="alert-body">
+        <div class="alert-tag">🌱 Lote Norte · Soja R3</div>
+        <div class="alert-title">Alta presión de roya asiática</div>
+        <div class="alert-sub">18mm lluvia + humedad 72% → condiciones ideales de infección. Ventana de 48hs para actuar.</div>
+      </div>
+    </div>
+
+    <div class="alert-card">
+      <div class="alert-dot ad-amber"></div>
+      <div class="alert-body">
+        <div class="alert-tag">🐄 Rodeo · Vaca 147</div>
+        <div class="alert-title">Parto inminente — próximos 3 días</div>
+        <div class="alert-sub">Signos: edema ubre, relajación ligamentos. Revisar tarde de hoy.</div>
+      </div>
+    </div>
+
+    <div class="alert-card">
+      <div class="alert-dot ad-amber"></div>
+      <div class="alert-body">
+        <div class="alert-tag">💉 Sanitario · SENASA</div>
+        <div class="alert-title">Brucelosis vence en 12 días</div>
+        <div class="alert-sub">5 vaquillonas pendientes. Coordinar veterinario antes del 9 de abril.</div>
+      </div>
+    </div>
+
+    <div class="section-label"><span>Resueltas esta semana</span></div>
+
+    <div class="alert-card" style="opacity:.5;">
+      <div class="alert-dot" style="background:var(--muted)"></div>
+      <div class="alert-body">
+        <div class="alert-tag">🌽 Lote Sur · Maíz</div>
+        <div class="alert-title">Chicharrita — umbral superado</div>
+        <div class="alert-sub">Resuelta. Aplicación 22/03 exitosa.</div>
+      </div>
+      <div class="alert-time">✓</div>
+    </div>
+
+    <div style="height:20px;"></div>
+  </div>
+
+</div><!-- end content -->
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active" id="nav-home" onclick="showTab('home')">
+    <div class="nav-icon">🏠</div>
+    <div class="nav-label">Inicio</div>
+  </div>
+  <div class="nav-item" id="nav-campo" onclick="showTab('campo')">
+    <div class="nav-icon">🌾</div>
+    <div class="nav-label">Mi campo</div>
+  </div>
+  <div class="nav-item" id="nav-chat" onclick="showTab('chat')">
+    <div class="nav-icon">✦</div>
+    <div class="nav-label">Allpa</div>
+  </div>
+  <div class="nav-item" id="nav-cuaderno" onclick="showTab('cuaderno')">
+    <div class="nav-icon">📋</div>
+    <div class="nav-label">Cuaderno</div>
+  </div>
+  <div class="nav-item" id="nav-alertas" onclick="showTab('alertas')" style="position:relative;">
+    <div class="nav-icon">🔔</div>
+    <div class="nav-label">Alertas</div>
+    <div style="position:absolute; top:8px; right:22px; background:var(--red); color:white; font-family:'Geist Mono',monospace; font-size:8px; padding:1px 5px; border-radius:10px;">3</div>
+  </div>
+</div>
+
+<script>
+// ── TAB SWITCHING ──
+function showTab(tab) {
+  // hide all screens
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  const screen = document.getElementById('screen-' + tab);
+  const nav = document.getElementById('nav-' + tab);
+
+  if (screen) { screen.classList.add('active'); screen.style.display = ''; }
+  if (nav) nav.classList.add('active');
+
+  // scroll chat to bottom
+  if (tab === 'chat') {
+    setTimeout(() => {
+      const s = document.getElementById('chatScroll');
+      if(s) s.scrollTop = s.scrollHeight;
+    }, 50);
+  }
+}
+
+// ── CHAT ──
+function handleKey(e) {
+  if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+}
+
+const responses = {
+  'calcul': 'Sin aplicación en R3, el riesgo de pérdida por roya es de **4-8 qq/ha** según datos INTA para tu zona. A $284 USD/tt eso son **$113-226 USD/ha**. Contra un costo de aplicación de $28-34 USD/ha, la relación costo-beneficio es **1:4 mínimo**. Vale aplicar.',
+  'dosis': 'Opera (epoxiconazole + piraclostrobin): **200 ml/ha en 30 l de agua**. Aplicar en las horas frescas del día, sin rocío y sin viento. Período de carencia: 14 días. Registro SENASA N° 32.241. ¿Lo registro en el cuaderno automáticamente?',
+  'registr': '✅ Registrado en el Cuaderno SENASA:\n\n**Lote Norte · 28/03/2026**\nAplicación fungicida Opera 200ml/ha\nMotivo: riesgo roya R3\nEquipo: autopropulsado\n\nEl registro quedó guardado con firma digital. ¿Agregás algún dato más?',
+  'lote sur': 'Lote Sur — Maíz en VT (floración). Estado: **normal**. Sin alertas activas. Temperatura ideal para el llenado de grano que viene. Próximo monitoreo recomendado en 7 días cuando entre en R2. ¿Querés detalles del pronóstico para los próximos días?',
+  'default': 'Entendido. ¿Querés que lo analice con el contexto del Lote Norte de hoy, o es una consulta general?'
+};
+
+function getResponse(msg) {
+  const m = msg.toLowerCase();
+  for (const [key, val] of Object.entries(responses)) {
+    if (key !== 'default' && m.includes(key)) return val;
+  }
+  return responses.default;
+}
+
+function sendMsg() {
+  const input = document.getElementById('msgInput');
+  const text = input.value.trim();
+  if (!text) return;
+  addUserMsg(text);
+  input.value = '';
+  input.style.height = 'auto';
+  showTyping();
+  setTimeout(() => {
+    removeTyping();
+    addAllpaMsg(getResponse(text));
+  }, 1200);
+}
+
+function addMsg(text) {
+  showTab('chat');
+  setTimeout(() => {
+    addUserMsg(text);
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      addAllpaMsg(getResponse(text));
+    }, 1200);
+  }, 100);
+}
+
+function addVoiceMsg() {
+  addMsg('Registrá que hoy a las 7:30 apliqué Opera en el Lote Norte, 200ml, con el equipo grande');
+}
+
+function addUserMsg(text) {
+  const scroll = document.getElementById('chatScroll');
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.innerHTML = `<div class="bubble user">${text}</div><div class="msg-time">${getTime()}</div>`;
+  scroll.appendChild(div);
+  scroll.scrollTop = scroll.scrollHeight;
+}
+
+function addAllpaMsg(text) {
+  const scroll = document.getElementById('chatScroll');
+  const div = document.createElement('div');
+  div.className = 'msg allpa';
+  const formatted = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g,'<br>');
+  div.innerHTML = `<div class="bubble allpa">${formatted}</div><div class="msg-time">${getTime()}</div>`;
+  scroll.appendChild(div);
+  scroll.scrollTop = scroll.scrollHeight;
+}
+
+function showTyping() {
+  const scroll = document.getElementById('chatScroll');
+  const div = document.createElement('div');
+  div.className = 'msg allpa'; div.id = 'typing';
+  div.innerHTML = `<div class="bubble allpa" style="padding:14px 18px;">
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+    <span class="typing-dot"></span>
+  </div>`;
+  scroll.appendChild(div);
+  scroll.scrollTop = scroll.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing');
+  if(t) t.remove();
+}
+
+function getTime() {
+  const now = new Date();
+  return now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+}
+
+// ── CUADERNO TABS ──
+function switchTab(el, id) {
+  document.querySelectorAll('.ctab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  ['fitosanitarios','sanitario','lluvias'].forEach(t => {
+    const el2 = document.getElementById('tab-' + t);
+    if (el2) el2.style.display = t === id ? 'block' : 'none';
+  });
+}
+
+function recordVoice() {
+  const fab = document.getElementById('fabVoice');
+  fab.style.background = 'var(--red)';
+  fab.innerHTML = '⏺️';
+  setTimeout(() => {
+    fab.style.background = 'var(--green)';
+    fab.innerHTML = '🎙️';
+    // go to chat to show the voice registration
+    showTab('chat');
+    addUserMsg('🎙️ [Nota de voz] Registrá que hoy a las 8am apliqué Opera en el Lote Norte');
+    showTyping();
+    setTimeout(() => {
+      removeTyping();
+      addAllpaMsg('✅ **Registrado en Cuaderno SENASA:**\n\nLote Norte · 28/03/2026 · 08:00\nAplicación fungicida: **Opera 200ml/ha**\nSuperficie: 120 ha\nRegistro SENASA activo\n\n¿Agregás el equipo que usaste?');
+    }, 1200);
+  }, 2000);
+}
+</script>
+</body>
+</html>
